@@ -1,5 +1,5 @@
 # AquaSynk — Intelligent Distributed Water Monitoring & Automation System
-
+#https://aquaskynk.gauthamd2007.workers.dev
 ## Overview
 
 **AquaSynk** is a distributed IoT-based water monitoring and smart reservoir automation platform designed for real-time tank monitoring, autonomous water routing, intelligent pump/valve control, and low-power remote telemetry.
@@ -28,7 +28,7 @@ The system is engineered for:
 
 ```text
                 ┌────────────────────┐
-                │   ESP8266 Node 1   │
+                │   ESP8266 Node (x)  │
                 │ Ultrasonic Sensor  │
                 └─────────┬──────────┘
                           │ HTTP
@@ -232,7 +232,7 @@ Ultrasonic sensors have a physical dead zone near the sensor face.
 AquaSynk compensates using:
 
 ```cpp
-const float RES_BLIND_SPOT_CM = 46.0;
+const float RES_BLIND_SPOT_CM = 46.0; //Or However you configure your tanks
 ```
 
 This allows:
