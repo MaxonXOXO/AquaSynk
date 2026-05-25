@@ -1,0 +1,2996 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <!-- PWA Manifest - ONLY ONE! -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AquaSkynk">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#0055ff">
+  
+  <title>AquaSkynk</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Your CSS here */
+    :root {
+      --bg-app: #f0f4fa;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --text-muted: #94a3b8;
+
+      --primary: #0055ff;
+      --primary-light: #e0ecff;
+      --primary-gradient: linear-gradient(135deg, #3a8dff 0%, #0055ff 100%);
+      --primary-glow: rgba(0, 85, 255, 0.15);
+
+      --success: #10b981;
+      --success-light: #e6f4ea;
+      --success-text: #059669;
+      --success-gradient: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+
+      --purple-gradient: linear-gradient(135deg, #c084fc 0%, #7c3aed 100%);
+
+      --danger: #ef4444;
+      --danger-light: #fde8e8;
+
+      --border: rgba(226, 232, 240, 0.8);
+      --border-glass: rgba(255, 255, 255, 0.6);
+
+      --radius-card: 28px;
+      --radius-button: 16px;
+      --radius-pill: 99px;
+
+      --shadow-card: 0 15px 35px -5px rgba(51, 65, 85, 0.06), 0 10px 15px -6px rgba(51, 65, 85, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      --shadow-skeuo-out: 4px 4px 8px rgba(165, 180, 203, 0.4), -4px -4px 8px rgba(255, 255, 255, 0.9);
+      --shadow-skeuo-in: inset 2.5px 2.5px 5px rgba(165, 180, 203, 0.45), inset -2.5px -2.5px 5px rgba(255, 255, 255, 0.9);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-app);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient glows */
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .amb-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.4;
+    }
+
+    .amb-1 {
+      width: 500px;
+      height: 500px;
+      top: -150px;
+      left: -150px;
+      background: radial-gradient(circle, rgba(0, 85, 255, 0.22) 0%, transparent 70%);
+    }
+
+    .amb-2 {
+      width: 400px;
+      height: 400px;
+      bottom: 80px;
+      right: -80px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+    }
+
+    /* App layout */
+    .app {
+      position: relative;
+      z-index: 1;
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 0 0 40px;
+      background: var(--bg-app);
+      min-height: 100vh;
+      box-shadow: 0 0 50px rgba(165, 180, 203, 0.15);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 24px 15px;
+      background: transparent;
+    }
+
+    .conn-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--danger);
+      margin-left: 8px;
+      align-self: center;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .conn-dot.live {
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .conn-dot.error {
+      background: var(--danger);
+      box-shadow: 0 0 8px var(--danger);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo-wrap svg {
+      transform: translateY(1px);
+    }
+
+    .brand-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-sub);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    /* Cards & Layout */
+    .card-section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 24px 10px;
+    }
+
+    .card-section-title h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text-main);
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      margin: 0 20px 15px;
+      border: 1px solid var(--border-glass);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-badge.online {
+      background: var(--success-light);
+      color: var(--success-text);
+    }
+
+    .status-badge.offline {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .action-btn-arrow {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Reservoir Layout */
+    .reservoir-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .tank-graphic-container {
+      flex: 1.2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .level-stats {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 5px;
+    }
+
+    .level-label {
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .level-pct {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 42px;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .level-depth {
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    /* Vertical Gauge styling */
+    .gauge-vertical-container {
+      flex: 0.35;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      margin-right: 0;
+    }
+
+    .gauge-scale {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      font-size: 8px;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .gauge-track {
+      width: 14px;
+      height: 100%;
+      background: #f1f5f9;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .gauge-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, #53c0ff 0%, #0055ff 100%);
+      border-radius: var(--radius-pill);
+      transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -2px 8px rgba(0, 85, 255, 0.3);
+    }
+
+    /* Metrics sub-widgets */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .metric-widget {
+      background: rgba(248, 250, 262, 0.5);
+      border: 1px solid rgba(241, 245, 249, 0.8);
+      border-radius: 20px;
+      padding: 12px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .metric-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .metric-icon.blue {
+      background: var(--primary-gradient);
+      box-shadow: 0 4px 10px rgba(0, 85, 255, 0.2);
+    }
+
+    .metric-icon.purple {
+      background: var(--purple-gradient);
+      box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
+    }
+
+    .metric-icon.green {
+      background: var(--success-gradient);
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+    }
+
+    .metric-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-name {
+      font-size: 10px;
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Sub Tanks Layout */
+    .sub-tanks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 0 20px;
+      margin-bottom: 15px;
+    }
+
+    .sub-card {
+      margin: 0;
+      padding: 16px 14px;
+    }
+
+    .sub-header {
+      margin-bottom: 10px;
+    }
+
+    .sub-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sub-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-main);
+    }
+
+    .sub-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .more-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 2px;
+    }
+
+    .filling-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .filling-badge.show {
+      opacity: 1;
+      animation: pulse-fill 1.5s infinite;
+    }
+
+    @keyframes pulse-fill {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .sub-body {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .mini-tank-container {
+      width: 60px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .progress-ring-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .progress-ring-text {
+      position: absolute;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sub-tank-desc {
+      font-size: 9px;
+      color: var(--text-sub);
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    /* Sparkline Trend Styling */
+    .sparkline-container {
+      border-top: 1px solid rgba(226, 232, 240, 0.5);
+      padding-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sparkline-svg {
+      width: 60px;
+      height: 20px;
+      overflow: visible;
+    }
+
+    .sparkline-label {
+      font-size: 9px;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .sparkline-trend-val {
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .sparkline-trend-val.up {
+      color: var(--success-text);
+    }
+
+    .sparkline-trend-val.down {
+      color: var(--danger);
+    }
+
+    /* Controls tab & elements */
+    .controls-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .controls-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .controls-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .seg-ctrl {
+      display: flex;
+      background: #e2e8f0;
+      border-radius: var(--radius-pill);
+      padding: 4px;
+      gap: 4px;
+      box-shadow: inset 1.5px 1.5px 4px rgba(0, 0, 0, 0.06), inset -1.5px -1.5px 4px rgba(255, 255, 255, 0.8);
+    }
+
+    .seg-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: transparent;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .seg-btn.on.auto {
+      background: var(--primary-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 85, 255, 0.3);
+    }
+
+    .seg-btn.on.manual {
+      background: #ffffff;
+      color: var(--text-main);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 0 20px;
+      margin-bottom: 15px;
+    }
+
+    .ctrl-card {
+      background: var(--bg-card);
+      border-radius: 22px;
+      padding: 14px 6px 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-glass);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    /* Loading Spinner for physical confirmation */
+    .ctrl-loader {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 14px;
+      height: 14px;
+      border: 2.5px solid rgba(226, 232, 240, 0.6);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: ctrl-spin 0.7s linear infinite;
+      display: none;
+      z-index: 6;
+    }
+
+    .ctrl-card.loading .ctrl-loader {
+      display: block;
+    }
+
+    .ctrl-card.loading .power-btn-skeuo {
+      opacity: 0.45;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    .ctrl-card.loading .ctrl-status-badge {
+      opacity: 0.5;
+    }
+
+    @keyframes ctrl-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .ctrl-card.active-ctrl {
+      border-color: rgba(0, 85, 255, 0.2);
+    }
+
+    .ctrl-graphic-container {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .ctrl-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--text-main);
+    }
+
+    .ctrl-status-badge {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 9px;
+      font-weight: 600;
+      margin-top: 2px;
+      margin-bottom: 8px;
+    }
+
+    .ctrl-status-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .ctrl-status-dot.on {
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+    }
+
+    .ctrl-status-badge.on {
+      color: var(--success-text);
+    }
+
+    .ctrl-status-badge.off {
+      color: var(--text-sub);
+    }
+
+    /* Skeuomorphic Power Button */
+    .power-btn-recess {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #e9eff6;
+      box-shadow: var(--shadow-skeuo-in);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      position: relative;
+    }
+
+    .power-btn-skeuo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: #f8fafc;
+      box-shadow: 2px 2px 5px rgba(165, 180, 203, 0.5), -2px -2px 5px rgba(255, 255, 255, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .power-btn-skeuo:active {
+      box-shadow: inset 1px 1px 2px rgba(165, 180, 203, 0.8), inset -1px -1px 2px rgba(255, 255, 255, 0.8);
+      transform: scale(0.96);
+    }
+
+    .power-btn-skeuo.engaged {
+      background: var(--success-gradient);
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    /* Manual lock (Translucent Grey Overlay for Auto Mode - No icon) */
+    .manual-lock {
+      position: absolute;
+      inset: 0;
+      background: rgba(226, 232, 240, 0.5);
+      backdrop-filter: grayscale(100%) blur(0.5px);
+      -webkit-backdrop-filter: grayscale(100%) blur(0.5px);
+      pointer-events: auto;
+      z-index: 5;
+      cursor: not-allowed;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 22px;
+    }
+
+    .manual-lock.hidden {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* System Summary Card */
+    .summary-card {
+      margin: 0 20px 15px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .summary-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .summary-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+
+    .summary-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .summary-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    .summary-desc {
+      font-size: 11px;
+      color: var(--success-text);
+      font-weight: 600;
+    }
+
+    .summary-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .check-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--success-light);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Flow diagram section */
+    .flow-card {
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 262, 0.85) 100%);
+    }
+
+    .flow-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .flow-svg-wrap {
+      background: linear-gradient(180deg, rgba(241, 245, 249, 0.6) 0%, rgba(248, 250, 262, 0.3) 100%);
+      border: 1px solid rgba(226, 232, 240, 0.4);
+      border-radius: 20px;
+      padding: 12px 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .flow-svg {
+      width: 100%;
+      max-width: 370px;
+    }
+
+    @keyframes flow-move {
+      0% { stroke-dashoffset: 24; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    .flow-pipe-active {
+      stroke-dasharray: 6 6;
+      animation: flow-move 0.8s linear infinite;
+    }
+
+    /* Control Device Image Styles */
+    .ctrl-device-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: all 0.3s ease;
+      filter: grayscale(80%) opacity(60%);
+    }
+
+    .ctrl-card.active-ctrl .ctrl-device-img {
+      filter: grayscale(0%) opacity(100%) drop-shadow(0 0 8px rgba(0, 85, 255, 0.55));
+    }
+
+    .ctrl-card.active-ctrl[id^="ctrlV"] .ctrl-device-img {
+      animation: valve-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes valve-pulse {
+      0%, 100% { filter: grayscale(0%) opacity(100%) drop-shadow(0 0 3px rgba(16, 185, 129, 0.4)); }
+      50% { filter: grayscale(0%) opacity(100%) drop-shadow(0 0 10px rgba(16, 185, 129, 0.85)); }
+    }
+
+    /* Pipeline Device Styles */
+    .pipeline-device {
+      transition: all 0.3s ease;
+      filter: grayscale(85%) opacity(50%);
+    }
+
+    .pipeline-device.active {
+      filter: grayscale(0%) opacity(100%) drop-shadow(0 0 4px rgba(0, 85, 255, 0.6));
+    }
+
+    .pipeline-device.active.pump {
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+
+    .pipeline-device.active.valve {
+      filter: grayscale(0%) opacity(100%) drop-shadow(0 0 6px rgba(16, 185, 129, 0.85));
+    }
+
+    /* Toast styling */
+    .toast {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text-main);
+      border-radius: 14px;
+      padding: 10px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .last-updated {
+      text-align: center;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      padding: 10px 0;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .shimmer {
+      background: linear-gradient(90deg, #f1f5f9 25%, #cbd5e1 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite;
+      border-radius: 4px;
+      color: transparent !important;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0 }
+      100% { background-position: -200% 0 }
+    }
+
+    /* ----------------------------------------------------
+       3D GLASS CYLINDER TANK SYSTEM (Frosted Glass Style)
+       ---------------------------------------------------- */
+    .glass-scene {
+      position: relative;
+      width: var(--tank-w);
+      height: var(--tank-h);
+      margin: 0 auto;
+    }
+
+    /* Ground shadow */
+    .glass-shadow {
+      position: absolute;
+      bottom: 0;
+      left: calc(var(--tank-w) * -0.1);
+      width: calc(var(--tank-w) * 1.2);
+      height: calc(var(--ellipse-h) * 0.65);
+      background: radial-gradient(ellipse, rgba(0,0,0,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Glass container boundary with clipping */
+    .glass-container {
+      position: absolute;
+      bottom: calc(var(--ellipse-h) * 0.5);
+      left: 0;
+      width: var(--tank-w);
+      height: calc(var(--tank-h) - var(--ellipse-h) * 1.1);
+      border-radius: 0 0 calc(var(--tank-w) / 2) calc(var(--tank-w) / 2) / 0 0 calc(var(--ellipse-h) / 2) calc(var(--ellipse-h) / 2);
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    /* Glass back wall color */
+    .glass-back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        #dce8f3 0%,
+        #f4f8fc 40%,
+        #f4f8fc 60%,
+        #d5e4f0 100%
+      );
+    }
+
+    /* Water Body (Liquid Column) */
+    .water-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0; /* Updated via JS */
+      background: linear-gradient(90deg,
+        #0077B6 0%,
+        #48CAE4 28%,
+        #00B4D8 52%,
+        #48CAE4 75%,
+        #0077B6 100%
+      );
+      transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Water Surface Ellipse */
+    .water-surface {
+      position: absolute;
+      bottom: 0; /* Updated via JS */
+      left: 0;
+      width: var(--tank-w);
+      height: var(--ellipse-h);
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 40%,
+        #ADE8F4 0%,
+        #90E0EF 50%,
+        #48CAE4 100%
+      );
+      box-shadow: inset 0 3px 10px rgba(255,255,255,0.5);
+      overflow: hidden;
+      transition: bottom 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Ripples inside the surface */
+    .ripple {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1.5px solid rgba(255,255,255,0.85);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .ripple.r1 { animation: rippleEffect 1.8s ease-out infinite; animation-delay: 0.0s; }
+    .ripple.r2 { animation: rippleEffect 1.8s ease-out infinite; animation-delay: 0.6s; }
+    .ripple.r3 { animation: rippleEffect 1.8s ease-out infinite; animation-delay: 1.2s; }
+
+    @keyframes rippleEffect {
+      0%   { width: 0px; height: 0px; opacity: 0.9; }
+      100% { width: calc(var(--tank-w) * 0.95); height: calc(var(--ellipse-h) * 0.95); opacity: 0; }
+    }
+
+    /* Frosted glass overlay styling */
+    .glass-tube {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.13);
+      backdrop-filter: blur(10px) saturate(1.2);
+      -webkit-backdrop-filter: blur(10px) saturate(1.2);
+      box-shadow:
+        inset 12px 0 22px rgba(255,255,255,0.55),
+        inset -8px 0 16px rgba(0,0,0,0.04);
+      pointer-events: none;
+    }
+
+    /* Light highlight inside glass */
+    .glass-tube::before {
+      content: '';
+      position: absolute;
+      left: calc(var(--tank-w) * 0.08);
+      top: 0; bottom: 0;
+      width: calc(var(--tank-w) * 0.06);
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.0),
+        rgba(255,255,255,0.65) 30%,
+        rgba(255,255,255,0.65) 70%,
+        rgba(255,255,255,0.0)
+      );
+      border-radius: 5px;
+      filter: blur(3px);
+    }
+
+    /* Top rim band */
+    .rim-band {
+      position: absolute;
+      top: calc(var(--ellipse-h) * 0.1);
+      left: calc(var(--tank-w) * -0.038);
+      width: calc(var(--tank-w) * 1.076);
+      height: var(--ellipse-h);
+      border-radius: 50%;
+      background: linear-gradient(175deg,
+        rgba(255,255,255,0.98) 0%,
+        rgba(225,238,250,0.90) 55%,
+        rgba(200,222,242,0.95) 100%
+      );
+      box-shadow:
+        0 -3px 10px rgba(255,255,255,0.9),
+        0  5px 14px rgba(0,0,0,0.07),
+        inset 0 2px 8px rgba(255,255,255,1),
+        inset 0 -3px 8px rgba(180,210,235,0.4);
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    /* Rim opening hollow */
+    .rim-opening {
+      position: absolute;
+      top: calc(var(--ellipse-h) * 0.28);
+      left: calc(var(--tank-w) * 0.075);
+      width: calc(var(--tank-w) * 0.85);
+      height: calc(var(--ellipse-h) * 0.65);
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 55%,
+        rgba(160,205,230,0.50) 0%,
+        rgba(130,185,220,0.25) 55%,
+        rgba(100,160,210,0.08) 100%
+      );
+      box-shadow:
+        inset 0 5px 16px rgba(0,0,0,0.12),
+        inset 0 -2px 6px rgba(255,255,255,0.20);
+      z-index: 9;
+      pointer-events: none;
+    }
+
+    /* ----------------------------------------------------
+       SCENE CONFIGURATIONS (Responsive & Thickness)
+       ---------------------------------------------------- */
+    /* Main Reservoir: visual thickness (wider body + enhanced glass refraction shadows) */
+    .reservoir-scene {
+      --tank-w: 155px;
+      --tank-h: 215px;
+      --ellipse-h: 46px;
+    }
+
+    .reservoir-scene .glass-tube {
+      /* Increased refraction shadows inside the glass to make it look visually thicker */
+      box-shadow:
+        inset 20px 0 35px rgba(255,255,255,0.65),
+        inset -14px 0 24px rgba(0,0,0,0.06);
+    }
+
+    .reservoir-scene .glass-tube::before {
+      left: 18px;
+      width: 14px;
+      filter: blur(4px);
+    }
+
+    /* Sub Tanks: smaller layout */
+    .sub-tank-scene {
+      --tank-w: 54px;
+      --tank-h: 100px;
+      --ellipse-h: 20px;
+    }
+
+    /* Mobile Responsiveness Rules (max-width: 380px) */
+    @media (max-width: 380px) {
+      .card {
+        margin: 0 12px 12px;
+        padding: 14px;
+        border-radius: 20px;
+      }
+
+      .header {
+        padding: 20px 16px 10px;
+      }
+
+      .card-section-title {
+        padding: 12px 16px 6px;
+      }
+
+      .controls-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        padding: 0 12px;
+        margin-bottom: 12px;
+      }
+
+      .ctrl-card {
+        padding: 8px 4px 6px;
+        border-radius: 16px;
+      }
+
+      .ctrl-graphic-container {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 2px;
+      }
+
+      .ctrl-name { font-size: 9.5px; }
+
+      .ctrl-status-badge {
+        font-size: 8px;
+        margin-top: 1px;
+        margin-bottom: 4px;
+      }
+
+      .power-btn-recess { width: 32px; height: 32px; }
+      .power-btn-skeuo { width: 24px; height: 24px; }
+      .power-btn-skeuo svg { width: 10px; height: 10px; stroke-width: 3.5; }
+
+      .sub-tanks-grid {
+        padding: 0 12px;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .sub-card { padding: 12px 8px; }
+
+      .sub-body {
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      .mini-tank-container {
+        width: 44px;
+        height: 80px;
+      }
+
+      .progress-ring-container { width: 50px; height: 50px; }
+      .progress-ring { width: 50px; height: 50px; }
+      .progress-ring-text { font-size: 11px; }
+
+      .sub-tank-desc {
+        font-size: 8px;
+        bottom: -11px;
+      }
+
+      .metrics-row {
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .metric-widget {
+        padding: 8px 6px;
+        border-radius: 14px;
+        gap: 6px;
+      }
+
+      .metric-icon { width: 26px; height: 26px; }
+      .metric-icon svg { width: 12px; height: 12px; }
+
+      .metric-name { font-size: 8px; }
+      .metric-value { font-size: 10px; }
+
+      /* Responsive 3D Glass Cylinders */
+      .reservoir-scene {
+        --tank-w: 125px;
+        --tank-h: 175px;
+        --ellipse-h: 36px;
+      }
+
+      .sub-tank-scene {
+        --tank-w: 42px;
+        --tank-h: 80px;
+        --ellipse-h: 16px;
+      }
+    }
+
+    /* Header Relative Position for Theme Toggle */
+    .header {
+      position: relative;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle-btn {
+      position: absolute;
+      top: 30px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10;
+    }
+
+    .theme-toggle-btn:hover {
+      transform: scale(1.05);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .theme-toggle-btn:active {
+      transform: scale(0.95);
+    }
+
+    .theme-toggle-btn svg {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .theme-toggle-btn:hover svg {
+      transform: rotate(15deg);
+    }
+
+    body.dark-theme .sun-icon {
+      display: block;
+    }
+    body.dark-theme .moon-icon {
+      display: none;
+    }
+    body:not(.dark-theme) .sun-icon {
+      display: none;
+    }
+    body:not(.dark-theme) .moon-icon {
+      display: block;
+    }
+
+    @media (max-width: 380px) {
+      .theme-toggle-btn {
+        top: 18px;
+        right: 16px;
+        width: 34px;
+        height: 34px;
+      }
+      .theme-toggle-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    /* ========================================================
+       DESKTOP & LARGE DISPLAY SCALING
+       ======================================================== */
+    .dashboard-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .dashboard-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Centered layout for medium screens (tablets) */
+    @media (min-width: 600px) and (max-width: 899px) {
+      .app {
+        max-width: 600px;
+        margin: 24px auto;
+        border-radius: 28px;
+        min-height: calc(100vh - 48px);
+        box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
+      }
+      body.dark-theme .app {
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    /* Dual Column Grid for Desktop (>= 900px) */
+    @media (min-width: 900px) {
+      .app {
+        max-width: 1040px;
+        margin: 40px auto;
+        border-radius: 36px;
+        min-height: calc(100vh - 80px);
+        padding: 0 24px 30px;
+        box-shadow: 0 30px 60px rgba(15, 23, 42, 0.08);
+      }
+
+      body.dark-theme .app {
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 24px;
+        padding: 0 16px;
+      }
+
+      /* Reset card margins inside columns to allow grid/gap spacing */
+      .dashboard-col .card {
+        margin: 0 0 20px 0 !important;
+      }
+
+      .dashboard-col .sub-tanks-grid {
+        padding: 0 !important;
+        margin-bottom: 20px !important;
+      }
+
+      .dashboard-col .controls-grid {
+        padding: 0 !important;
+        margin-bottom: 20px !important;
+      }
+
+      /* Scale up 3D glass tank dimensions for larger desktop screens */
+      .reservoir-scene {
+        --tank-w: 180px;
+        --tank-h: 245px;
+        --ellipse-h: 52px;
+      }
+
+      .sub-tank-scene {
+        --tank-w: 64px;
+        --tank-h: 120px;
+        --ellipse-h: 24px;
+      }
+
+      /* Scale up vertical gauge height */
+      .gauge-vertical-container {
+        height: 150px;
+      }
+
+      /* Scale up font sizes and icons for legibility */
+      .level-pct {
+        font-size: 40px;
+      }
+
+      .metric-name {
+        font-size: 11px;
+      }
+
+      .metric-value {
+        font-size: 14px;
+      }
+
+      .metric-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .card-section-title {
+        padding: 10px 0 12px;
+      }
+      
+      .card-section-title h3 {
+        font-size: 19px;
+      }
+
+      .card-title {
+        font-size: 22px;
+      }
+
+      .sub-name {
+        font-size: 17px;
+      }
+
+      .controls-title {
+        font-size: 20px;
+      }
+      
+      .ctrl-card {
+        padding: 18px 12px;
+      }
+      
+      .ctrl-name {
+        font-size: 15px;
+      }
+    }
+
+    /* Dark Theme Styles */
+    body.dark-theme {
+      --bg-app: #080f19;
+      --bg-card: rgba(13, 22, 37, 0.85);
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+
+      --primary: #0055ff;
+      --primary-light: rgba(0, 85, 255, 0.15);
+      --primary-gradient: linear-gradient(135deg, #3a8dff 0%, #0055ff 100%);
+      --primary-glow: rgba(0, 85, 255, 0.35);
+
+      --success: #10b981;
+      --success-light: rgba(16, 185, 129, 0.15);
+      --success-text: #34d399;
+      --success-gradient: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+
+      --purple-gradient: linear-gradient(135deg, #c084fc 0%, #7c3aed 100%);
+
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.15);
+
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glass: rgba(255, 255, 255, 0.05);
+
+      --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.5), 0 10px 15px -6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      --shadow-skeuo-out: 4px 4px 8px rgba(0, 0, 0, 0.5), -4px -4px 8px rgba(255, 255, 255, 0.02);
+      --shadow-skeuo-in: inset 2.5px 2.5px 5px rgba(0, 0, 0, 0.6), inset -2.5px -2.5px 5px rgba(255, 255, 255, 0.02);
+    }
+
+    body.dark-theme .app {
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Ambient glow adjustments */
+    body.dark-theme .amb-1 {
+      background: radial-gradient(circle, rgba(0, 85, 255, 0.15) 0%, transparent 70%);
+    }
+
+    body.dark-theme .amb-2 {
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+    }
+
+    /* Glass Cylinder adaptations */
+    body.dark-theme .glass-back {
+      background: linear-gradient(90deg,
+        #0e1724 0%,
+        #152232 40%,
+        #152232 60%,
+        #0e1724 100%
+      );
+    }
+
+    body.dark-theme .glass-tube {
+      background: rgba(255, 255, 255, 0.02);
+      box-shadow:
+        inset 12px 0 22px rgba(255, 255, 255, 0.12),
+        inset -8px 0 16px rgba(0, 0, 0, 0.45);
+    }
+
+    body.dark-theme .glass-tube::before {
+      background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0.0),
+        rgba(255, 255, 255, 0.3) 30%,
+        rgba(255, 255, 255, 0.3) 70%,
+        rgba(255, 255, 255, 0.0)
+      );
+    }
+
+    body.dark-theme .rim-band {
+      background: linear-gradient(175deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(40, 60, 85, 0.4) 55%,
+        rgba(20, 31, 46, 0.6) 100%
+      );
+      box-shadow:
+        0 -3px 10px rgba(255, 255, 255, 0.05),
+        0 5px 14px rgba(0, 0, 0, 0.45),
+        inset 0 2px 8px rgba(255, 255, 255, 0.1),
+        inset 0 -3px 8px rgba(180, 210, 235, 0.1);
+    }
+
+    body.dark-theme .rim-opening {
+      background: radial-gradient(ellipse at 50% 55%,
+        rgba(44, 62, 85, 0.3) 0%,
+        rgba(20, 31, 46, 0.15) 55%,
+        transparent 100%
+      );
+      box-shadow:
+        inset 0 5px 16px rgba(0, 0, 0, 0.5),
+        inset 0 -2px 6px rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark-theme .water-surface {
+      background: radial-gradient(ellipse at 50% 40%,
+        #c5f1ff 0%,
+        #76dcfc 50%,
+        #0077b6 100%
+      );
+      box-shadow: inset 0 3px 10px rgba(255,255,255,0.25);
+    }
+
+    body.dark-theme .gauge-track {
+      background: #0b121e;
+    }
+
+    /* Segmented Control adaptive */
+    body.dark-theme .seg-ctrl {
+      background: #111827;
+      box-shadow: inset 1.5px 1.5px 4px rgba(0, 0, 0, 0.4), inset -1.5px -1.5px 4px rgba(255, 255, 255, 0.02);
+    }
+
+    body.dark-theme .seg-btn.on.manual {
+      background: #1e293b;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Skeuomorphic Power Buttons */
+    body.dark-theme .power-btn-recess {
+      background: #070c14;
+    }
+
+    body.dark-theme .power-btn-skeuo {
+      background: #131d2e;
+      color: #94a3b8;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4), -2px -2px 5px rgba(255, 255, 255, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark-theme .power-btn-skeuo:active {
+      box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.8), inset -1px -1px 2px rgba(255, 255, 255, 0.02);
+    }
+
+    body.dark-theme .power-btn-skeuo.engaged {
+      background: var(--success-gradient);
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    /* Metric Widget */
+    body.dark-theme .metric-widget {
+      background: rgba(13, 22, 35, 0.6);
+      border-color: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Sparkline line border */
+    body.dark-theme .sparkline-container {
+      border-top-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Progress Ring Back */
+    body.dark-theme .progress-ring__background {
+      stroke: #1e293b;
+    }
+
+    /* Manual Lock */
+    body.dark-theme .manual-lock {
+      background: rgba(11, 18, 30, 0.6);
+    }
+
+    /* Toast styling override */
+    body.dark-theme .toast {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Pipeline Flow Panel adaptations */
+    body.dark-theme .flow-card {
+      background: var(--bg-card);
+    }
+
+    body.dark-theme .flow-svg-wrap {
+      background: rgba(11, 18, 30, 0.4);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark-theme .flow-svg rect:not([id*="Water"]) {
+      fill: #0d1624;
+      stroke: #1f2d40;
+    }
+
+    body.dark-theme .flow-svg circle:not([id$="Core"]) {
+      fill: #0d1624;
+      stroke: #1f2d40;
+    }
+
+    body.dark-theme #svgPumpARing {
+      fill: #142033;
+      stroke: #23344d;
+    }
+
+    body.dark-theme .flow-svg line:not([id$="-flow"]),
+    body.dark-theme .flow-svg path:not([id$="-flow"]) {
+      stroke: #1e293b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient-layer">
+    <div class="amb-orb amb-1"></div>
+    <div class="amb-orb amb-2"></div>
+  </div>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-logo-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0055ff" stroke-width="2.5"
+            stroke-linejoin="round" stroke-linecap="round">
+            <path d="M12 2C12 2 4 10 4 14C4 18.4183 7.58172 22 12 22C16.4183 22 20 18.4183 20 14C20 10 12 2 12 2Z"
+              fill="url(#dropGrad)" />
+            <defs>
+              <linearGradient id="dropGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3a8dff" />
+                <stop offset="100%" stop-color="#0055ff" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="brand-title"
+            style="font-size: 20px; font-weight: 800; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.5px;">
+            AquaSkynk</div>
+          <span class="conn-dot" id="connDot"></span>
+        </div>
+        <div class="brand-sub"
+          style="font-size: 10px; color: var(--text-sub); font-weight: 600; letter-spacing: 0.5px;">WATERLINE MONITORING
+          SYSTEM</div>
+      </div>
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Theme">
+        <!-- Sun Icon -->
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon Icon -->
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- HIDDEN FOR JS Fallback compatibility -->
+    <div id="connLabel" style="display:none">OFFLINE</div>
+    <div id="resFill" style="display:none"></div>
+
+    <!-- TAB 1: DASHBOARD -->
+    <div class="tab-content active" id="tab-dashboard">
+
+      <!-- Reservoir Level Warning Alert -->
+      <div class="alert-box" id="alertLowReservoir" style="display:none; margin: 0 20px 15px;">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-meta">
+          <span class="alert-title">Reservoir level critical</span>
+          <span class="alert-desc">Main reservoir is below 25% (Refills suspended). Please check manual inflow valves.</span>
+        </div>
+      </div>
+
+      <!-- Desktop/Mobile Grid Layout Wrapper -->
+      <div class="dashboard-grid">
+        <!-- COLUMN 1: Reservoir & Pipeline -->
+        <div class="dashboard-col">
+          <!-- MAIN RESERVOIR -->
+          <div class="card reservoir-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2 class="card-title">Main Reservoir</h2>
+            <span class="status-badge online" id="resStatusBadge">
+              <span class="status-dot"></span> Online
+            </span>
+          </div>
+        </div>
+
+        <div class="card-body reservoir-body">
+          <!-- 3D Glass Cylinder Reservoir Tank -->
+          <div class="tank-graphic-container">
+            <div class="glass-scene reservoir-scene">
+              <div class="glass-shadow"></div>
+              <div class="glass-container">
+                <div class="glass-back"></div>
+                <div class="water-body" id="resWaterBody"></div>
+                <div class="water-surface" id="resWaterSurface">
+                  <div class="ripple r1"></div>
+                  <div class="ripple r2"></div>
+                  <div class="ripple r3"></div>
+                </div>
+                <div class="glass-tube"></div>
+              </div>
+              <div class="rim-band"></div>
+              <div class="rim-opening"></div>
+            </div>
+          </div>
+
+          <div class="level-stats">
+            <span class="level-label">Water Level</span>
+            <div class="level-pct" id="resPct">72%</div>
+            <span class="level-depth" id="resDistLabel">1.08 m / 1.50 m</span>
+          </div>
+
+          <!-- Vertical Gauge -->
+          <div class="gauge-vertical-container">
+            <div class="gauge-scale">
+              <span>1.50 m</span>
+              <span>0 m</span>
+            </div>
+            <div class="gauge-track">
+              <div class="gauge-fill" id="resGaugeFill" style="height:72%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-widget">
+            <div class="metric-icon blue">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round">
+                <path d="M2 12c4-4 8-4 12 0s8 4 12 0"></path>
+                <path d="M2 6c4-4 8-4 12 0s8 4 12 0"></path>
+                <path d="M2 18c4-4 8-4 12 0s8 4 12 0"></path>
+              </svg>
+            </div>
+            <div class="metric-meta">
+              <span class="metric-name">Capacity</span>
+              <span class="metric-value">1.50 m</span>
+            </div>
+          </div>
+          <div class="metric-widget">
+            <div class="metric-icon purple">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+              </svg>
+            </div>
+            <div class="metric-meta">
+              <span class="metric-name">Diameter</span>
+              <span class="metric-value">5.00 m</span>
+            </div>
+          </div>
+          <div class="metric-widget">
+            <div class="metric-icon green">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="metric-meta">
+              <span class="metric-name">Updated</span>
+              <span class="metric-value" id="lastSyncTimeHeader">Just now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE PIPELINE FLOW -->
+      <div class="card-section-title">
+          <h3>System Pipeline</h3>
+      </div>
+      <div class="card flow-card">
+          <div class="flow-title">REALTIME PIPE ROUTING OVERVIEW</div>
+          <div class="flow-svg-wrap">
+              <svg class="flow-svg" viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                      <filter id="glow-filter">
+                          <feGaussianBlur stdDeviation="1.5" result="blur" />
+                          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                      <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="rgba(46,139,255,0.85)" />
+                          <stop offset="100%" stop-color="rgba(0,102,255,0.95)" />
+                      </linearGradient>
+                      <linearGradient id="waterGradT" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="rgba(46,139,255,0.8)" />
+                          <stop offset="100%" stop-color="rgba(0,102,255,0.9)" />
+                      </linearGradient>
+                  </defs>
+
+                  <!-- RESERVOIR (left) -->
+                  <rect x="10" y="40" width="60" height="60" rx="7" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <clipPath id="resClip"><rect x="10" y="40" width="60" height="60" rx="6" /></clipPath>
+                  <rect x="10" id="svgResWater" y="100" width="60" height="43" fill="url(#waterGrad)" clip-path="url(#resClip)" style="transition: height 1s ease, y 1s ease" />
+                  <text x="40" y="112" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="var(--text-muted)">RESERV</text>
+
+                  <!-- PUMP A (center) -->
+                  <circle cx="170" cy="70" r="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <circle cx="170" cy="70" r="13" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" id="svgPumpARing" />
+                  <text x="170" y="67" text-anchor="middle" font-family="Space Mono" font-size="6.5" font-weight="700" fill="var(--text-sub)">PUMP</text>
+                  <text x="170" y="77" text-anchor="middle" font-family="Space Mono" font-size="6.5" font-weight="700" fill="var(--text-sub)">MAIN</text>
+
+                  <!-- Impeller fan A -->
+                  <g id="svgPumpAImpeller" style="transform-origin: 170px 70px; transition: transform 0.1s;">
+                      <line x1="170" y1="58" x2="170" y2="82" stroke="var(--text-muted)" stroke-width="1.8" stroke-linecap="round" />
+                      <line x1="158" y1="70" x2="182" y2="70" stroke="var(--text-muted)" stroke-width="1.8" stroke-linecap="round" />
+                      <circle cx="170" cy="70" r="4.5" fill="var(--text-muted)" id="svgPumpACore" style="transition:fill 0.4s" />
+                  </g>
+
+                  <!-- PUMP B (center-bottom) -->
+                  <circle cx="170" cy="115" r="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <text x="170" y="112" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-sub)">PUMP</text>
+                  <text x="170" y="120" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-sub)">GARDEN</text>
+
+                  <!-- Impeller fan B -->
+                  <g id="svgPumpBImpeller" style="transform-origin: 170px 115px; transition: transform 0.1s;">
+                      <line x1="170" y1="105" x2="170" y2="125" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" />
+                      <line x1="160" y1="115" x2="180" y2="115" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" />
+                      <circle cx="170" cy="115" r="3.5" fill="var(--text-muted)" id="svgPumpBCore" style="transition:fill 0.4s" />
+                  </g>
+
+                  <!-- VALVE 1 (top right) -->
+                  <rect x="258" y="22" width="40" height="20" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <circle cx="278" cy="32" r="5" fill="var(--text-muted)" id="svgV1Core" style="transition:fill 0.4s" />
+                  <text x="278" y="48" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="var(--text-muted)">VALVE 1</text>
+
+                  <!-- VALVE 2 (bottom right) -->
+                  <rect x="258" y="95" width="40" height="20" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <circle cx="278" cy="105" r="5" fill="var(--text-muted)" id="svgV2Core" style="transition:fill 0.4s" />
+                  <text x="278" y="90" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="var(--text-muted)">VALVE 2</text>
+
+                  <!-- TANK A (far right top) -->
+                  <rect x="308" y="16" width="28" height="32" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <clipPath id="ta"><rect x="308" y="16" width="28" height="32" rx="3" /></clipPath>
+                  <rect x="308" id="svgT1Water" y="48" width="28" height="21" fill="url(#waterGradT)" clip-path="url(#ta)" style="transition:height 1s ease, y 1s ease" />
+                  <text x="322" y="56" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-muted)">TANK A</text>
+
+                  <!-- TANK B (far right bottom) -->
+                  <rect x="308" y="88" width="28" height="32" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                  <clipPath id="tb"><rect x="308" y="88" width="28" height="32" rx="3" /></clipPath>
+                  <rect x="308" id="svgT2Water" y="120" width="28" height="12" fill="url(#waterGradT)" clip-path="url(#tb)" style="transition:height 1s ease, y 1s ease" />
+                  <text x="322" y="128" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-muted)">TANK B</text>
+
+                  <!-- PIPE: Reservoir → Pump A -->
+                  <line id="pipe-res-pump" x1="70" y1="70" x2="148" y2="70" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+                  <line id="pipe-res-pump-flow" x1="70" y1="70" x2="148" y2="70" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
+
+                  <!-- PIPE: Pump A → Valve 1 (top) -->
+                  <path id="pipe-pump-v1" d="M 190 70 L 220 32 L 258 32" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  <path id="pipe-pump-v1-flow" d="M 190 70 L 220 32 L 258 32" fill="none" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
+
+                  <!-- PIPE: Pump A → Valve 2 (bottom) -->
+                  <path id="pipe-pump-v2" d="M 190 70 L 220 105 L 258 105" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  <path id="pipe-pump-v2-flow" d="M 190 70 L 220 105 L 258 105" fill="none" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
+
+                  <!-- PIPE: Valve 1 → Tank A -->
+                  <line id="pipe-v1-ta" x1="298" y1="32" x2="308" y2="32" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+                  <line id="pipe-v1-ta-flow" x1="298" y1="32" x2="308" y2="32" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
+
+                  <!-- PIPE: Valve 2 → Tank B -->
+                  <line id="pipe-v2-tb" x1="298" y1="105" x2="308" y2="105" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+                  <line id="pipe-v2-tb-flow" x1="298" y1="105" x2="308" y2="105" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
+              </svg>
+          </div>
+      </div>
+    </div><!-- /COLUMN 1 -->
+
+    <!-- COLUMN 2: Sub Tanks & Controls -->
+    <div class="dashboard-col">
+      <!-- SUB TANKS Title -->
+      <div class="card-section-title">
+        <h3>Sub Tanks</h3>
+      </div>
+
+      <!-- SUB TANKS GRID -->
+      <div class="sub-tanks-grid">
+        <!-- Sub Tank 1 -->
+        <div class="card sub-card" id="tank1Card">
+          <div class="card-header sub-header">
+            <div class="sub-title-group">
+              <h3 class="sub-name">Sub Tank 1</h3>
+              <span class="status-badge online"
+                style="background:none; padding:0; height:auto; color:var(--success-text)">
+                <span class="status-dot"></span> Online
+              </span>
+            </div>
+            <div class="sub-actions">
+              <span class="filling-badge" id="fill1Badge">FILLING</span>
+              <button class="more-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="5" r="1"></circle>
+                  <circle cx="12" cy="12" r="1"></circle>
+                  <circle cx="12" cy="19" r="1"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="sub-body">
+            <!-- 3D Glass Cylinder Sub-Tank 1 -->
+            <div class="mini-tank-container">
+              <div class="glass-scene sub-tank-scene">
+                <div class="glass-shadow"></div>
+                <div class="glass-container">
+                  <div class="glass-back"></div>
+                  <div class="water-body" id="st1WaterBody"></div>
+                  <div class="water-surface" id="st1WaterSurface">
+                    <div class="ripple r1"></div>
+                    <div class="ripple r2"></div>
+                    <div class="ripple r3"></div>
+                  </div>
+                  <div class="glass-tube"></div>
+                </div>
+                <div class="rim-band"></div>
+                <div class="rim-opening"></div>
+              </div>
+              <div id="tank1Fill" style="display:none"></div>
+            </div>
+
+            <div class="progress-ring-container">
+              <svg class="progress-ring" viewBox="0 0 64 64" width="100%" height="100%">
+                <circle class="progress-ring__background" stroke="#f1f5f9" stroke-width="5.5" fill="transparent" r="26"
+                  cx="32" cy="32" />
+                <circle class="progress-ring__circle" id="tank1Circle" stroke="var(--success)" stroke-width="5.5"
+                  fill="transparent" r="26" cx="32" cy="32" stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                  stroke-linecap="round" />
+              </svg>
+              <div class="progress-ring-text" id="tank1Pct">65%</div>
+              <div class="sub-tank-desc" id="tank1Dist" style="position: absolute; bottom: -14px; white-space: nowrap;">
+                0.65 m / 1.00 m</div>
+            </div>
+
+            <div id="tank1GaugeFill" style="display:none"></div>
+          </div>
+
+          <div class="sparkline-container" style="margin-top: 20px;">
+            <span class="sparkline-label">Trend (24h)</span>
+            <svg class="sparkline-svg" viewBox="0 0 60 20">
+              <path d="M 0 16 Q 10 8 20 12 T 40 6 T 60 10" fill="none" stroke="var(--success)" stroke-width="1.8"
+                stroke-linecap="round" />
+              <circle cx="60" cy="10" r="3" fill="var(--success)" />
+            </svg>
+            <span class="sparkline-trend-val up">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              4%
+            </span>
+          </div>
+        </div>
+
+        <!-- Sub Tank 2 -->
+        <div class="card sub-card" id="tank2Card">
+          <div class="card-header sub-header">
+            <div class="sub-title-group">
+              <h3 class="sub-name">Sub Tank 2</h3>
+              <span class="status-badge online"
+                style="background:none; padding:0; height:auto; color:var(--success-text)">
+                <span class="status-dot"></span> Online
+              </span>
+            </div>
+            <div class="sub-actions">
+              <span class="filling-badge" id="fill2Badge">FILLING</span>
+              <button class="more-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="5" r="1"></circle>
+                  <circle cx="12" cy="12" r="1"></circle>
+                  <circle cx="12" cy="19" r="1"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="sub-body">
+            <!-- 3D Glass Cylinder Sub-Tank 2 -->
+            <div class="mini-tank-container">
+              <div class="glass-scene sub-tank-scene">
+                <div class="glass-shadow"></div>
+                <div class="glass-container">
+                  <div class="glass-back"></div>
+                  <div class="water-body" id="st2WaterBody"></div>
+                  <div class="water-surface" id="st2WaterSurface">
+                    <div class="ripple r1"></div>
+                    <div class="ripple r2"></div>
+                    <div class="ripple r3"></div>
+                  </div>
+                  <div class="glass-tube"></div>
+                </div>
+                <div class="rim-band"></div>
+                <div class="rim-opening"></div>
+              </div>
+              <div id="tank2Fill" style="display:none"></div>
+            </div>
+
+            <div class="progress-ring-container">
+              <svg class="progress-ring" viewBox="0 0 64 64" width="100%" height="100%">
+                <circle class="progress-ring__background" stroke="#f1f5f9" stroke-width="5.5" fill="transparent" r="26"
+                  cx="32" cy="32" />
+                <circle class="progress-ring__circle" id="tank2Circle" stroke="var(--primary)" stroke-width="5.5"
+                  fill="transparent" r="26" cx="32" cy="32" stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                  stroke-linecap="round" />
+              </svg>
+              <div class="progress-ring-text" id="tank2Pct">38%</div>
+              <div class="sub-tank-desc" id="tank2Dist" style="position: absolute; bottom: -14px; white-space: nowrap;">
+                0.38 m / 1.00 m</div>
+            </div>
+
+            <div id="tank2GaugeFill" style="display:none"></div>
+          </div>
+
+          <div class="sparkline-container" style="margin-top: 20px;">
+            <span class="sparkline-label">Trend (24h)</span>
+            <svg class="sparkline-svg" viewBox="0 0 60 20">
+              <path d="M 0 14 Q 10 16 20 8 T 40 10 T 60 4" fill="none" stroke="var(--primary)" stroke-width="1.8"
+                stroke-linecap="round" />
+              <circle cx="60" cy="4" r="3" fill="var(--primary)" />
+            </svg>
+            <span class="sparkline-trend-val down">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              3%
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS CONTAINER -->
+      <div class="card" style="padding: 15px 20px; margin-bottom: 12px">
+        <div class="controls-header">
+          <div class="controls-meta">
+            <h2 class="controls-title" id="modeTitleText">Controls</h2>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="seg-ctrl">
+              <button class="seg-btn manual" id="btnManual" onclick="setMode(true)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="transform: translateY(-0.5px)">
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+                </svg> Manual
+              </button>
+              <button class="seg-btn auto" id="btnAuto" onclick="setMode(false)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="transform: translateY(-0.5px)">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                </svg> Auto
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Hidden elements for JS compatibility -->
+        <span id="modeDescText" style="display:none">System self-managing</span>
+      </div>
+
+      <!-- Device Grid -->
+<div class="controls-grid">
+  <!-- Motor A (Pump A) -->
+  <div class="ctrl-card" id="ctrlPA">
+    <div class="manual-lock" id="lockPA"></div>
+    <div class="ctrl-loader"></div>
+    <div class="ctrl-graphic-container">
+      <img src="https://i.postimg.cc/FR81LHNN/motor.png" class="ctrl-device-img" alt="Motor A">
+    </div>
+    <span class="ctrl-name">Motor A</span>
+    <span class="ctrl-sub" style="display:none">PUMP A · RELAY 1</span>
+    <div class="ctrl-status-badge off" id="lblPAContainer">
+      <span class="ctrl-status-dot" id="dotPA"></span>
+      <span id="lblPA">Stopped</span>
+    </div>
+    <div class="power-btn-recess">
+      <button class="power-btn-skeuo" id="btnPA"
+        onclick="toggleControl('pump_a','btnPA','ctrlPA','dotPA','lblPA')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+          stroke-linecap="round">
+          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+          <line x1="12" y1="2" x2="12" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Motor B (Pump B) -->
+  <div class="ctrl-card" id="ctrlPB">
+    <div class="manual-lock" id="lockPB"></div>
+    <div class="ctrl-loader"></div>
+    <div class="ctrl-graphic-container">
+      <img src="https://i.postimg.cc/FR81LHNN/motor.png" class="ctrl-device-img" alt="Motor B">
+    </div>
+    <span class="ctrl-name">Motor B</span>
+    <span class="ctrl-sub" style="display:none">PUMP B · RELAY 2</span>
+    <div class="ctrl-status-badge off" id="lblPBContainer">
+      <span class="ctrl-status-dot" id="dotPB"></span>
+      <span id="lblPB">Stopped</span>
+    </div>
+    <div class="power-btn-recess">
+      <button class="power-btn-skeuo" id="btnPB"
+        onclick="toggleControl('pump_b','btnPB','ctrlPB','dotPB','lblPB')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+          stroke-linecap="round">
+          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+          <line x1="12" y1="2" x2="12" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Valve A (Valve 1) -->
+  <div class="ctrl-card" id="ctrlV1">
+    <div class="manual-lock" id="lockV1"></div>
+    <div class="ctrl-loader"></div>
+    <div class="ctrl-graphic-container">
+      <img src="https://i.postimg.cc/KjTjrh8b/valve.png" class="ctrl-device-img" alt="Valve A">
+    </div>
+    <span class="ctrl-name">Valve A</span>
+    <span class="ctrl-sub" style="display:none">MAIN → TANK A</span>
+    <div class="ctrl-status-badge off" id="lblV1Container">
+      <span class="ctrl-status-dot" id="dotV1"></span>
+      <span id="lblV1">Closed</span>
+    </div>
+    <div class="power-btn-recess">
+      <button class="power-btn-skeuo" id="btnV1"
+        onclick="toggleControl('valve_1','btnV1','ctrlV1','dotV1','lblV1')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+          stroke-linecap="round">
+          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+          <line x1="12" y1="2" x2="12" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Valve B (Valve 2) -->
+  <div class="ctrl-card" id="ctrlV2">
+    <div class="manual-lock" id="lockV2"></div>
+    <div class="ctrl-loader"></div>
+    <div class="ctrl-graphic-container">
+      <img src="https://i.postimg.cc/KjTjrh8b/valve.png" class="ctrl-device-img" alt="Valve B">
+    </div>
+    <span class="ctrl-name">Valve B</span>
+    <span class="ctrl-sub" style="display:none">MAIN → TANK B</span>
+    <div class="ctrl-status-badge off" id="lblV2Container">
+      <span class="ctrl-status-dot" id="dotV2"></span>
+      <span id="lblV2">Closed</span>
+    </div>
+    <div class="power-btn-recess">
+      <button class="power-btn-skeuo" id="btnV2"
+        onclick="toggleControl('valve_2','btnV2','ctrlV2','dotV2','lblV2')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+          stroke-linecap="round">
+          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+          <line x1="12" y1="2" x2="12" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+    </div><!-- /COLUMN 2 -->
+  </div><!-- /DASHBOARD-GRID -->
+
+      <div class="last-updated">LAST SYNC — <span id="lastSyncTime">—</span></div>
+    </div><!-- /TAB-DASHBOARD -->
+
+    <div class="safe-bottom"></div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+  <script>
+    // ========================================================
+    //  THEME SETUP & TOGGLE
+    // ========================================================
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.body.classList.add('dark-theme');
+        updateMetaThemeColor('dark');
+      } else {
+        document.body.classList.remove('dark-theme');
+        updateMetaThemeColor('light');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark-theme');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateMetaThemeColor(isDark ? 'dark' : 'light');
+      showToast(isDark ? '🌙 Dark theme enabled' : '☀️ Light theme enabled');
+    }
+
+    function updateMetaThemeColor(theme) {
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) {
+        meta.setAttribute('content', theme === 'dark' ? '#080f19' : '#0055ff');
+      }
+    }
+
+    // Initialize immediately to prevent flash of light theme
+    initTheme();
+
+    // ========================================================
+    //  THINGER.IO CONFIG
+    // ========================================================
+    const THINGER_SERVER = 'https://api.thinger.io';
+    const THINGER_WS = 'wss://api.thinger.io';
+    const THINGER_USER = 'Hydra_Mesh';
+    const THINGER_DEVICE = 'Hydra';
+    const DEVICE_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXYiOiJIeWRyYSIsImlhdCI6MTc3OTI5OTkyMSwianRpIjoiNmEwZGY2NTEwYjBmNjJjMWY4MDc0YWZhIiwic3ZyIjoiYXAtc291dGhlYXN0LmF3cy50aGluZ2VyLmlvIiwidXNyIjoiSHlkcmFfTWVzaCJ9.BUe3r-ZdvtZAnNCB7hTrmhz0QuDoP5qj1DNDw5ywAsQ';
+
+    const API_BASE = `${THINGER_SERVER}/v3/users/${THINGER_USER}/devices/${THINGER_DEVICE}/resources`;
+    const REST_HEADERS = {
+      'Authorization': `Bearer ${DEVICE_TOKEN}`,
+      'Content-Type': 'application/json'
+    };
+
+    // Resources to subscribe to via WebSocket - UPDATED to match ESP8266 resources
+    const WS_RESOURCES = ['sensors', 'relays', 'mode', 'raw_sensor'];
+
+    // ========================================================
+    //  STATE - Updated to match ESP8266 data structure
+    // ========================================================
+    let appState = {
+      connected: false,
+      wsReady: false,
+      manualMode: false,
+      reservoir: { percent: 0, distance: 0, volume: 0 },
+      tank1: { percent: 0, distance: 0, filling: false },
+      tank2: { percent: 0, distance: 0, filling: false },
+      relays: { pump_a: false, pump_b: false, valve_1: false, valve_2: false },
+      rawSensor: null,
+      initialized: false
+    };
+
+    // ========================================================
+    //  REST POLLING FALLBACK
+    // ========================================================
+    let pollingInterval = null;
+
+    function startRestPolling() {
+      if (pollingInterval) return;
+      console.log('[REST] Starting fallback polling every 5s');
+      pollingInterval = setInterval(async () => {
+        if (appState.wsReady) return;
+        try {
+          await fetchAllRest();
+        } catch (e) {
+          console.warn('[REST] Polling fetch failed', e);
+        }
+      }, 5000);
+    }
+
+    function stopRestPolling() {
+      clearInterval(pollingInterval);
+      pollingInterval = null;
+      console.log('[REST] Polling stopped');
+    }
+
+    // ========================================================
+    //  WEBSOCKET ENGINE
+    // ========================================================
+    let ws = null;
+    let wsReconnectTimer = null;
+    let wsReconnectDelay = 1000;
+    let wsPingTimer = null;
+    let wsAliveTimer = null;
+
+    let streamIdCounter = 1;
+    const streamMap = {};
+
+    function wsConnect() {
+      clearTimeout(wsReconnectTimer);
+      if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
+
+      console.log('[WS] Connecting…');
+      ws = new WebSocket(`${THINGER_WS}/v3/users/${THINGER_USER}/devices/${THINGER_DEVICE}/websocket?authorization=${DEVICE_TOKEN}`);
+
+      ws.onopen = () => {
+        console.log('[WS] Connected ✓');
+        wsReconnectDelay = 1000;
+        appState.wsReady = true;
+        updateConnStatus(true);
+        stopRestPolling();
+
+        WS_RESOURCES.forEach(resource => {
+          const id = streamIdCounter++;
+          streamMap[id] = resource;
+          const msg = { subscribe: { resource, streamid: id } };
+          ws.send(JSON.stringify(msg));
+          console.log(`[WS] Subscribed to ${resource} as stream ${id}`);
+        });
+
+        clearInterval(wsPingTimer);
+        wsPingTimer = setInterval(() => {
+          if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ heartbeat: 1 }));
+          }
+        }, 25000);
+
+        resetWatchdog();
+        fetchAllRest(); // Initial data fetch
+      };
+
+      ws.onmessage = (event) => {
+        resetWatchdog();
+        try {
+          const data = JSON.parse(event.data);
+          handleWsMessage(data);
+        } catch (e) {
+          // ignore parse errors
+        }
+      };
+
+      ws.onclose = (e) => {
+        console.log('[WS] Closed:', e.code, e.reason);
+        appState.wsReady = false;
+        clearInterval(wsPingTimer);
+        clearTimeout(wsAliveTimer);
+        updateConnStatus(false);
+        startRestPolling();
+        scheduleReconnect();
+      };
+
+      ws.onerror = (e) => {
+        console.error('[WS] Error:', e);
+        ws.close();
+      };
+    }
+
+    function resetWatchdog() {
+      clearTimeout(wsAliveTimer);
+      wsAliveTimer = setTimeout(() => {
+        console.warn('[WS] Watchdog timeout — reconnecting');
+        ws && ws.close();
+      }, 12000);
+    }
+
+    function scheduleReconnect() {
+      wsReconnectTimer = setTimeout(() => {
+        wsReconnectDelay = Math.min(wsReconnectDelay * 2, 30000);
+        console.log(`[WS] Reconnecting in ${wsReconnectDelay}ms…`);
+        wsConnect();
+        renderAll();
+      }, wsReconnectDelay);
+    }
+
+    function handleWsMessage(data) {
+      console.log('[WS MSG]', JSON.stringify(data).slice(0, 500));
+
+      let handled = false;
+
+      if (data.streamid !== undefined) {
+        const resource = streamMap[data.streamid];
+        if (resource) {
+          const payload = (data.out !== undefined) ? data.out : data;
+          console.log(`[WS] streamid${data.streamid} → ${resource}:`, payload);
+          ingestResource(resource, payload);
+          handled = true;
+        }
+      }
+
+      if (data.resource && WS_RESOURCES.includes(data.resource)) {
+        const payload = (data.out !== undefined) ? data.out : data;
+        console.log(`[WS] resource push → ${data.resource}:`, payload);
+        ingestResource(data.resource, payload);
+        handled = true;
+      }
+
+      for (const r of WS_RESOURCES) {
+        if (data[r] !== undefined) {
+          console.log(`[WS] batch key → ${r}:`, data[r]);
+          ingestResource(r, data[r]);
+          handled = true;
+        }
+      }
+
+      if (handled) {
+        renderAll();
+        updateConnStatus(true);
+        updateLastSync();
+      }
+    }
+
+    function val(v, fallback) {
+      return (v !== null && v !== undefined) ? v : fallback;
+    }
+
+    function ingestResource(resource, payload) {
+      if (payload === null || payload === undefined) return;
+
+      switch (resource) {
+        case 'sensors':
+          // Map ESP8266 sensor data to app state
+          appState.reservoir = {
+            percent: val(payload.res_percent, appState.reservoir.percent),
+            distance: val(payload.res_distance, appState.reservoir.distance),
+            volume: val(payload.res_volume, appState.reservoir.volume || 0)
+          };
+          appState.tank1 = {
+            percent: val(payload.tank1_percent, appState.tank1.percent),
+            distance: val(payload.tank1_distance, appState.tank1.distance),
+            filling: val(payload.tank1_filling, appState.tank1.filling)
+          };
+          appState.tank2 = {
+            percent: val(payload.tank2_percent, appState.tank2.percent),
+            distance: val(payload.tank2_distance, appState.tank2.distance),
+            filling: val(payload.tank2_filling, appState.tank2.filling)
+          };
+          appState.initialized = true;
+          console.log('[DATA] Sensors updated:', appState.reservoir, appState.tank1, appState.tank2);
+          break;
+
+        case 'relays':
+          const keys = ['pump_a', 'pump_b', 'valve_1', 'valve_2'];
+          const cardMap = { pump_a: 'ctrlPA', pump_b: 'ctrlPB', valve_1: 'ctrlV1', valve_2: 'ctrlV2' };
+          const labelMap = { pump_a: 'MOTOR A', pump_b: 'MOTOR B', valve_1: 'VALVE A', valve_2: 'VALVE B' };
+          
+          keys.forEach(key => {
+            const incomingVal = val(payload[key], appState.relays[key]);
+            appState.relays[key] = incomingVal;
+            
+            if (pendingControls[key] !== undefined && pendingControls[key] !== null) {
+              if (incomingVal === pendingControls[key]) {
+                pendingControls[key] = null;
+                const card = document.getElementById(cardMap[key]);
+                if (card) card.classList.remove('loading');
+                showToast(`✓ ${labelMap[key]} confirmed ${incomingVal ? 'ON' : 'OFF'}`);
+              } else if (incomingVal !== pendingControls[key]) {
+                pendingControls[key] = null;
+                const card = document.getElementById(cardMap[key]);
+                if (card) card.classList.remove('loading');
+                showToast(`⚠️ ${labelMap[key]} state mismatch`);
+              }
+            }
+          });
+          break;
+
+        case 'mode':
+          // Handle mode from ESP8266
+          if (typeof payload === 'boolean') {
+            appState.manualMode = payload;
+          } else if (typeof payload === 'number') {
+            appState.manualMode = payload !== 0;
+          } else if (payload !== null && payload !== undefined) {
+            const v = payload.out !== undefined ? payload.out : payload;
+            if (typeof v === 'boolean') appState.manualMode = v;
+          }
+          console.log('[DATA] Mode updated:', appState.manualMode);
+          break;
+
+        case 'raw_sensor':
+          appState.rawSensor = {
+            rawDistance: val(payload.raw_distance_cm, 0),
+            samples: [
+              val(payload.sample_0, 0),
+              val(payload.sample_1, 0),
+              val(payload.sample_2, 0)
+            ],
+            ready: val(payload.samples_ready, false),
+            index: val(payload.sample_index, 0),
+            waterHeight: val(payload.actual_water_height_cm, 0),
+            offset: val(payload.sensor_offset_cm, 0)
+          };
+          console.log(`[RAW SENSOR] Distance: ${appState.rawSensor.rawDistance.toFixed(1)}cm, ` +
+                      `Water Height: ${appState.rawSensor.waterHeight.toFixed(1)}cm`);
+          break;
+      }
+    }
+
+    // ========================================================
+    //  REST FALLBACK
+    // ========================================================
+    async function thingerGet(resource) {
+      const res = await fetch(`${API_BASE}/${resource}`, {
+        method: 'GET', headers: REST_HEADERS
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }
+
+    async function thingerPost(resource, payload) {
+      const res = await fetch(`${API_BASE}/${resource}`, {
+        method: 'POST',
+        headers: REST_HEADERS,
+        body: JSON.stringify({ in: payload })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }
+
+    async function fetchAllRest() {
+      try {
+        const [sensorsData, relayData, modeData] = await Promise.all([
+          thingerGet('sensors'),
+          thingerGet('relays'),
+          thingerGet('mode')
+        ]);
+
+        ingestResource('sensors', sensorsData.out ?? sensorsData);
+        ingestResource('relays', relayData.out ?? relayData);
+        ingestResource('mode', modeData.out ?? modeData);
+
+        renderAll();
+        updateConnStatus(true);
+        updateLastSync();
+        console.log('[REST] Data fetched successfully');
+      } catch (e) {
+        console.warn('[REST] Fetch failed:', e);
+      }
+    }
+
+    // ========================================================
+    //  RENDER
+    // ========================================================
+    function renderAll() {
+      renderReservoir();
+      renderTank1();
+      renderTank2();
+      renderRelays();
+      renderMode();
+      renderFlow();
+    }
+
+    function renderReservoir() {
+      const pct = appState.reservoir.percent;
+      const dist = appState.reservoir.distance;
+
+      // Percentage rendering
+      const elPct = document.getElementById('resPct');
+      if (elPct) {
+        elPct.classList.remove('shimmer');
+        elPct.textContent = `${pct.toFixed(0)}%`;
+      }
+
+      // Depth label rendering - Convert cm to meters
+      const elDepth = document.getElementById('resDistLabel');
+      if (elDepth) {
+        elDepth.textContent = `${(dist / 100).toFixed(2)} m / 1.50 m`;
+      }
+
+      // Update vertical gauge
+      const resGaugeFill = document.getElementById('resGaugeFill');
+      if (resGaugeFill) resGaugeFill.style.height = `${pct}%`;
+
+      // Dynamic frosted glass water level styling
+      const resWaterBody = document.getElementById('resWaterBody');
+      const resWaterSurface = document.getElementById('resWaterSurface');
+      if (resWaterBody && resWaterSurface) {
+        resWaterBody.style.height = `${pct}%`;
+        resWaterSurface.style.bottom = `calc(${pct}% - calc(var(--ellipse-h) / 2))`;
+      }
+
+      // SVG Flow diagram level
+      const svgRes = document.getElementById('svgResWater');
+      if (svgRes) {
+        const waterH = Math.round((pct / 100) * 36);
+        svgRes.setAttribute('height', waterH);
+        svgRes.setAttribute('y', 85 - waterH);
+      }
+
+      // Reservoir low warning trigger
+      const lowAlert = document.getElementById('alertLowReservoir');
+      if (lowAlert) {
+        lowAlert.style.display = pct <= 25 ? 'flex' : 'none';
+      }
+    }
+
+    function renderTank1() {
+      const t = appState.tank1;
+      const pctEl = document.getElementById('tank1Pct');
+      if (pctEl) {
+        pctEl.classList.remove('shimmer');
+        pctEl.textContent = `${t.percent.toFixed(0)}%`;
+      }
+      const distEl = document.getElementById('tank1Dist');
+      if (distEl) {
+        distEl.textContent = `${(t.distance / 100).toFixed(2)} m / 1.00 m`;
+      }
+
+      // Dynamic frosted glass water level styling
+      const st1WaterBody = document.getElementById('st1WaterBody');
+      const st1WaterSurface = document.getElementById('st1WaterSurface');
+      if (st1WaterBody && st1WaterSurface) {
+        st1WaterBody.style.height = `${t.percent}%`;
+        st1WaterSurface.style.bottom = `calc(${t.percent}% - calc(var(--ellipse-h) / 2))`;
+      }
+
+      // Progress Ring segment update
+      const circle = document.getElementById('tank1Circle');
+      if (circle) {
+        const circumference = 163.36;
+        const offset = circumference - (t.percent / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+      }
+
+      const badge = document.getElementById('fill1Badge');
+      if (badge) badge.classList.toggle('show', t.filling);
+
+      // SVG Flow diagram level
+      const el = document.getElementById('svgT1Water');
+      if (el) {
+        const h = Math.round((t.percent / 100) * 18);
+        el.setAttribute('height', h);
+        el.setAttribute('y', 38 - h);
+      }
+    }
+
+    function renderTank2() {
+      const t = appState.tank2;
+      const pctEl = document.getElementById('tank2Pct');
+      if (pctEl) {
+        pctEl.classList.remove('shimmer');
+        pctEl.textContent = `${t.percent.toFixed(0)}%`;
+      }
+      const distEl = document.getElementById('tank2Dist');
+      if (distEl) {
+        distEl.textContent = `${(t.distance / 100).toFixed(2)} m / 1.00 m`;
+      }
+
+      // Dynamic frosted glass water level styling
+      const st2WaterBody = document.getElementById('st2WaterBody');
+      const st2WaterSurface = document.getElementById('st2WaterSurface');
+      if (st2WaterBody && st2WaterSurface) {
+        st2WaterBody.style.height = `${t.percent}%`;
+        st2WaterSurface.style.bottom = `calc(${t.percent}% - calc(var(--ellipse-h) / 2))`;
+      }
+
+      // Progress Ring segment update
+      const circle = document.getElementById('tank2Circle');
+      if (circle) {
+        const circumference = 163.36;
+        const offset = circumference - (t.percent / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+      }
+
+      const badge = document.getElementById('fill2Badge');
+      if (badge) badge.classList.toggle('show', t.filling);
+
+      // SVG Flow diagram level
+      const el = document.getElementById('svgT2Water');
+      if (el) {
+        const h = Math.round((t.percent / 100) * 18);
+        el.setAttribute('height', h);
+        el.setAttribute('y', 110 - h);
+      }
+    }
+
+    function renderRelays() {
+      const r = appState.relays;
+      setCtrlState('btnPA', 'ctrlPA', 'dotPA', 'lblPA', r.pump_a, 'Running', 'Stopped');
+      setCtrlState('btnPB', 'ctrlPB', 'dotPB', 'lblPB', r.pump_b, 'Running', 'Stopped');
+      setCtrlState('btnV1', 'ctrlV1', 'dotV1', 'lblV1', r.valve_1, 'Open', 'Closed');
+      setCtrlState('btnV2', 'ctrlV2', 'dotV2', 'lblV2', r.valve_2, 'Open', 'Closed');
+    }
+
+    function setCtrlState(btnId, cardId, dotId, lblId, isOn, onLabel, offLabel) {
+      const btn = document.getElementById(btnId);
+      const card = document.getElementById(cardId);
+      const dot = document.getElementById(dotId);
+      const lbl = document.getElementById(lblId);
+      if (!card || !dot || !lbl) return;
+
+      card.classList.toggle('active-ctrl', isOn);
+      dot.className = 'ctrl-status-dot ' + (isOn ? 'on' : '');
+
+      const lblContainer = lbl.parentElement;
+      if (lblContainer) {
+        lblContainer.className = 'ctrl-status-badge ' + (isOn ? 'on' : 'off');
+      }
+
+      lbl.textContent = isOn ? onLabel : offLabel;
+      if (btn) btn.classList.toggle('engaged', isOn);
+    }
+
+    function renderMode() {
+      const manual = appState.manualMode;
+      const btnAuto = document.getElementById('btnAuto');
+      const btnManual = document.getElementById('btnManual');
+      
+      // Update segment control buttons
+      if (btnAuto) {
+        btnAuto.classList.toggle('on', !manual);
+        btnAuto.classList.toggle('auto', !manual);
+      }
+      if (btnManual) {
+        btnManual.classList.toggle('on', manual);
+        btnManual.classList.toggle('manual', manual);
+      }
+
+      // Show/hide manual locks on control cards
+      ['PA', 'PB', 'V1', 'V2'].forEach(id => {
+        const lock = document.getElementById('lock' + id);
+        if (lock) {
+          lock.classList.toggle('hidden', manual);
+        }
+      });
+
+      // Update mode description
+      const modeDesc = document.getElementById('modeDescText');
+      if (modeDesc) {
+        modeDesc.textContent = manual ? 'Manual control enabled' : 'System self-managing';
+      }
+    }
+
+    function renderFlow() {
+      const r = appState.relays;
+      const pumpOn = r.pump_a;
+      const pumpBOn = r.pump_b;
+      const v1open = r.valve_1;
+      const v2open = r.valve_2;
+
+      animatePipe('pipe-res-pump-flow', pumpOn);
+      animatePipe('pipe-pump-v1-flow', pumpOn && v1open);
+      animatePipe('pipe-pump-v2-flow', pumpOn && v2open);
+      animatePipe('pipe-v1-ta-flow', pumpOn && v1open);
+      animatePipe('pipe-v2-tb-flow', pumpOn && v2open);
+
+      // Update SVG device states
+      const svgPumpACore = document.getElementById('svgPumpACore');
+      const svgPumpBCore = document.getElementById('svgPumpBCore');
+      const svgV1Core = document.getElementById('svgV1Core');
+      const svgV2Core = document.getElementById('svgV2Core');
+      
+      if (svgPumpACore) svgPumpACore.setAttribute('fill', pumpOn ? '#10b981' : 'var(--text-muted)');
+      if (svgPumpBCore) svgPumpBCore.setAttribute('fill', pumpBOn ? '#10b981' : 'var(--text-muted)');
+      if (svgV1Core) svgV1Core.setAttribute('fill', v1open ? '#10b981' : 'var(--text-muted)');
+      if (svgV2Core) svgV2Core.setAttribute('fill', v2open ? '#10b981' : 'var(--text-muted)');
+    }
+
+    function animatePipe(id, active) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (active) {
+        el.style.opacity = '1';
+        el.classList.add('flow-pipe-active');
+      } else {
+        el.style.opacity = '0';
+        el.classList.remove('flow-pipe-active');
+      }
+    }
+
+    // ========================================================
+    //  CONNECTION STATUS
+    // ========================================================
+    function updateConnStatus(online) {
+      appState.connected = online;
+      const dot = document.getElementById('connDot');
+      if (dot) dot.className = 'conn-dot ' + (online ? 'live' : 'error');
+
+      const resBadge = document.getElementById('resStatusBadge');
+      if (resBadge) {
+        resBadge.className = 'status-badge ' + (online ? 'online' : 'offline');
+        resBadge.innerHTML = `<span class="status-dot"></span> ${online ? 'Online' : 'Offline'}`;
+      }
+    }
+
+    function updateLastSync() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+
+      const elTime = document.getElementById('lastSyncTime');
+      if (elTime) elTime.textContent = `${h}:${m}:${s}`;
+
+      const elHeaderTime = document.getElementById('lastSyncTimeHeader');
+      if (elHeaderTime) elHeaderTime.textContent = `${h}:${m}`;
+    }
+
+    // ========================================================
+    //  MODE SWITCH
+    // ========================================================
+    async function setMode(manual) {
+      appState.manualMode = manual;
+      renderMode();
+      renderRelays();
+      showToast(manual ? '⚡ Manual mode engaged' : '🤖 Auto mode resumed');
+
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        try {
+          ws.send(JSON.stringify({ mode: { in: manual } }));
+          return;
+        } catch (e) { /* fall through */ }
+      }
+      try {
+        await thingerPost('mode', manual);
+      } catch (e) {
+        console.warn('[API] Mode post failed, keeping state for offline demo');
+      }
+    }
+
+    // Track pending controls
+    let pendingControls = {};
+
+    async function toggleControl(resource, btnId, cardId, dotId, lblId) {
+      if (!appState.manualMode) {
+        showToast('🔒 Switch to Manual first');
+        return;
+      }
+
+      if (pendingControls[resource] !== null && pendingControls[resource] !== undefined) {
+        showToast(`⏳ ${resource.replace('_', ' ').toUpperCase()} command pending...`);
+        return;
+      }
+
+      const card = document.getElementById(cardId);
+      const currentlyOn = appState.relays[resource];
+      const newState = !currentlyOn;
+
+      // Optimistic update
+      appState.relays[resource] = newState;
+      renderRelays();
+      renderFlow();
+
+      // Loading state
+      pendingControls[resource] = newState;
+      if (card) card.classList.add('loading');
+      showToast(`⏳ Sending: ${resource.replace('_', ' ').toUpperCase()} → ${newState ? 'ON' : 'OFF'}…`);
+
+      let sent = false;
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        try {
+          ws.send(JSON.stringify({ [resource]: { in: newState } }));
+          sent = true;
+        } catch (e) {
+          console.warn('[WS] Send failed, trying REST');
+        }
+      }
+
+      if (!sent) {
+        try {
+          await thingerPost(resource, newState);
+          sent = true;
+        } catch (e) {
+          console.warn('[API] Control post failed');
+        }
+      }
+
+      // Timeout fallback
+      setTimeout(() => {
+        if (pendingControls[resource] !== null && pendingControls[resource] !== undefined) {
+          console.log(`[CTRL] Timeout waiting for ${resource} — rolling back`);
+          appState.relays[resource] = !pendingControls[resource];
+          pendingControls[resource] = null;
+          if (card) card.classList.remove('loading');
+          renderRelays();
+          renderFlow();
+          showToast(`❌ ${resource.replace('_', ' ').toUpperCase()} sync failed`);
+        }
+      }, 8000);
+    }
+
+    // ========================================================
+    //  TOAST
+    // ========================================================
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+    // ========================================================
+    //  BOOT
+    // ========================================================
+    wsConnect();
+    renderAll();
+
+    (async () => {
+      try {
+        await fetchAllRest();
+        if (!appState.wsReady) startRestPolling();
+      } catch (e) {
+        console.error('[REST] Initial fetch failed', e);
+        startRestPolling();
+      }
+    })();
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        if (!ws || ws.readyState === WebSocket.CLOSED || ws.readyState === WebSocket.CLOSING) {
+          console.log('[WS] Foreground wake — reconnecting');
+          wsReconnectDelay = 1000;
+          wsConnect();
+          renderAll();
+        }
+      }
+    });
+
+    // PWA Service Worker register
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('SW registered:', registration);
+          })
+          .catch(error => {
+            console.log('SW registration failed:', error);
+          });
+      });
+    }
+  </script>
