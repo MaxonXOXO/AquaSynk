@@ -1,5 +1,9 @@
-# AquaSynk — Intelligent Distributed Water Monitoring & Automation System
-#https://aquaskynk.gauthamd2007.workers.dev
+# AquaSynk — Intelligent Distributed Water Monitoring & Automation System --> https://aquaskynk.gauthamd2007.workers.dev
+
+![Theme1](https://i.postimg.cc/rFpMTXFT/Screenshot-2026-05-26-002951.png)
+
+![Theme2](https://i.postimg.cc/ncLpxbcz/Screenshot-2026-05-26-002959.png)
+
 ## Overview
 
 **AquaSynk** is a distributed IoT-based water monitoring and smart reservoir automation platform designed for real-time tank monitoring, autonomous water routing, intelligent pump/valve control, and low-power remote telemetry.
