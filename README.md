@@ -1,4 +1,4 @@
-# AquaSynk — Intelligent Distributed Water Monitoring & Automation System --> https://aquaskynk.gauthamd2007.workers.dev
+# AquaSynk — Intelligent Distributed Water Monitoring & Automation System 
 
 ![Theme1](https://i.postimg.cc/rFpMTXFT/Screenshot-2026-05-26-002951.png)
 
@@ -32,9 +32,9 @@ The system is engineered for:
 
 ```text
                 ┌────────────────────┐
-                │   ESP8266 Node (x)  │
+                │   ESP8266 Node (x) │
                 │ Ultrasonic Sensor  │
-                └─────────┬──────────┘
+                └─────────┬──────────┘              
                           │ HTTP
                           ▼
                 ┌────────────────────┐
