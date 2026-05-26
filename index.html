@@ -1370,10 +1370,18 @@
       gap: 0;
     }
 
-    .dashboard-col {
+    .reservoir-section,
+    .sub-tanks-section,
+    .controls-section,
+    .pipeline-section {
       display: flex;
       flex-direction: column;
     }
+
+    .reservoir-section { order: 1; }
+    .sub-tanks-section { order: 2; }
+    .controls-section { order: 3; }
+    .pipeline-section { order: 4; }
 
     /* Centered layout for medium screens (tablets) */
     @media (min-width: 600px) and (max-width: 899px) {
@@ -1407,21 +1415,32 @@
       .dashboard-grid {
         display: grid;
         grid-template-columns: 1.1fr 1fr;
+        grid-template-areas:
+          "reservoir subtanks"
+          "pipeline controls";
         gap: 24px;
         padding: 0 16px;
       }
 
+      .reservoir-section { grid-area: reservoir; }
+      .pipeline-section { grid-area: pipeline; }
+      .sub-tanks-section { grid-area: subtanks; }
+      .controls-section { grid-area: controls; }
+
       /* Reset card margins inside columns to allow grid/gap spacing */
-      .dashboard-col .card {
+      .reservoir-section .card,
+      .pipeline-section .card,
+      .sub-tanks-section .card,
+      .controls-section .card {
         margin: 0 0 20px 0 !important;
       }
 
-      .dashboard-col .sub-tanks-grid {
+      .sub-tanks-section .sub-tanks-grid {
         padding: 0 !important;
         margin-bottom: 20px !important;
       }
 
-      .dashboard-col .controls-grid {
+      .controls-section .controls-grid {
         padding: 0 !important;
         margin-bottom: 20px !important;
       }
@@ -1762,8 +1781,8 @@
 
       <!-- Desktop/Mobile Grid Layout Wrapper -->
       <div class="dashboard-grid">
-        <!-- COLUMN 1: Reservoir & Pipeline -->
-        <div class="dashboard-col">
+        <!-- RESERVOIR SECTION -->
+        <div class="reservoir-section">
           <!-- MAIN RESERVOIR -->
           <div class="card reservoir-card">
         <div class="card-header">
@@ -1798,13 +1817,13 @@
           <div class="level-stats">
             <span class="level-label">Water Level</span>
             <div class="level-pct" id="resPct">72%</div>
-            <span class="level-depth" id="resDistLabel">1.08 m / 1.50 m</span>
+            <span class="level-depth" id="resDistLabel">0.79 m / 1.10 m (398.1 L)</span>
           </div>
 
           <!-- Vertical Gauge -->
           <div class="gauge-vertical-container">
             <div class="gauge-scale">
-              <span>1.50 m</span>
+              <span>1.10 m</span>
               <span>0 m</span>
             </div>
             <div class="gauge-track">
@@ -1825,7 +1844,7 @@
             </div>
             <div class="metric-meta">
               <span class="metric-name">Capacity</span>
-              <span class="metric-value">1.50 m</span>
+              <span class="metric-value">552.9 L</span>
             </div>
           </div>
           <div class="metric-widget">
@@ -1839,7 +1858,7 @@
             </div>
             <div class="metric-meta">
               <span class="metric-name">Diameter</span>
-              <span class="metric-value">5.00 m</span>
+              <span class="metric-value">80 cm</span>
             </div>
           </div>
           <div class="metric-widget">
@@ -1857,12 +1876,15 @@
           </div>
         </div>
       </div>
+        </div><!-- /reservoir-section -->
 
-      <!-- INTERACTIVE PIPELINE FLOW -->
-      <div class="card-section-title">
-          <h3>System Pipeline</h3>
-      </div>
-      <div class="card flow-card">
+        <!-- PIPELINE SECTION -->
+        <div class="pipeline-section">
+          <!-- INTERACTIVE PIPELINE FLOW -->
+          <div class="card-section-title">
+              <h3>System Pipeline</h3>
+          </div>
+          <div class="card flow-card">
           <div class="flow-title">REALTIME PIPE ROUTING OVERVIEW</div>
           <div class="flow-svg-wrap">
               <svg class="flow-svg" viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg">
@@ -1956,10 +1978,10 @@
               </svg>
           </div>
       </div>
-    </div><!-- /COLUMN 1 -->
+    </div><!-- /pipeline-section -->
 
-    <!-- COLUMN 2: Sub Tanks & Controls -->
-    <div class="dashboard-col">
+    <!-- SUB TANKS SECTION -->
+    <div class="sub-tanks-section">
       <!-- SUB TANKS Title -->
       <div class="card-section-title">
         <h3>Sub Tanks</h3>
@@ -2114,8 +2136,11 @@
             </span>
           </div>
         </div>
-      </div>
+      </div><!-- /sub-tanks-grid -->
+    </div><!-- /sub-tanks-section -->
 
+    <!-- CONTROLS SECTION -->
+    <div class="controls-section">
       <!-- CONTROLS CONTAINER -->
       <div class="card" style="padding: 15px 20px; margin-bottom: 12px">
         <div class="controls-header">
@@ -2246,7 +2271,7 @@
   </div>
 </div>
 
-    </div><!-- /COLUMN 2 -->
+    </div><!-- /controls-section -->
   </div><!-- /DASHBOARD-GRID -->
 
       <div class="last-updated">LAST SYNC — <span id="lastSyncTime">—</span></div>
@@ -2316,9 +2341,9 @@
       connected: false,
       wsReady: false,
       manualMode: false,
-      reservoir: { percent: 0, distance: 0, volume: 0 },
-      tank1: { percent: 0, distance: 0, filling: false },
-      tank2: { percent: 0, distance: 0, filling: false },
+      reservoir: { percent: 72, distance: null, volume: 398.1 },
+      tank1: { percent: 65, distance: null, filling: false },
+      tank2: { percent: 38, distance: null, filling: false },
       relays: { pump_a: false, pump_b: false, valve_1: false, valve_2: false },
       rawSensor: null,
       initialized: false
@@ -2614,8 +2639,29 @@
     }
 
     function renderReservoir() {
-      const pct = appState.reservoir.percent;
-      const dist = appState.reservoir.distance;
+      let pct = appState.reservoir.percent;
+      let dist = appState.reservoir.distance; // Measured distance from top (in cm)
+
+      let waterHeightCm = 0;
+      
+      // Calculate water height and percentage from raw distance if available.
+      // Sensor is mounted at 155 cm (110 cm tank height + 45 cm blindspot).
+      // 45 cm measured distance = 100% full (110 cm water height).
+      // 155 cm measured distance = 0% full (0 cm water height).
+      if (dist !== undefined && dist !== null) {
+        waterHeightCm = 155 - dist;
+        waterHeightCm = Math.min(Math.max(waterHeightCm, 0), 110);
+        pct = (waterHeightCm / 110) * 100;
+      } else if (pct !== undefined && pct !== null) {
+        pct = Math.min(Math.max(pct, 0), 100);
+        waterHeightCm = (pct / 100) * 110;
+        dist = 155 - waterHeightCm;
+      }
+
+      // Ensure percent is clamped between 0 and 100
+      pct = Math.min(Math.max(pct, 0), 100);
+
+      const volumeL = Math.PI * 0.16 * (waterHeightCm / 100) * 1000; // Liters
 
       // Percentage rendering
       const elPct = document.getElementById('resPct');
@@ -2627,7 +2673,7 @@
       // Depth label rendering - Convert cm to meters
       const elDepth = document.getElementById('resDistLabel');
       if (elDepth) {
-        elDepth.textContent = `${(dist / 100).toFixed(2)} m / 1.50 m`;
+        elDepth.textContent = `${(waterHeightCm / 100).toFixed(2)} m / 1.10 m (${volumeL.toFixed(1)} L)`;
       }
 
       // Update vertical gauge
@@ -2659,29 +2705,46 @@
 
     function renderTank1() {
       const t = appState.tank1;
+      let dist = t.distance; // Measured distance from top (in cm)
+      let pct = t.percent;
+
+      let waterHeightCm = 0;
+
+      // Sub tank height is 1.00 m (100 cm).
+      // Measured distance is from the top.
+      if (dist !== undefined && dist !== null) {
+        waterHeightCm = 100 - dist;
+        waterHeightCm = Math.min(Math.max(waterHeightCm, 0), 100);
+        pct = waterHeightCm;
+      } else if (pct !== undefined && pct !== null) {
+        pct = Math.min(Math.max(pct, 0), 100);
+        waterHeightCm = pct;
+        dist = 100 - waterHeightCm;
+      }
+
       const pctEl = document.getElementById('tank1Pct');
       if (pctEl) {
         pctEl.classList.remove('shimmer');
-        pctEl.textContent = `${t.percent.toFixed(0)}%`;
+        pctEl.textContent = `${pct.toFixed(0)}%`;
       }
       const distEl = document.getElementById('tank1Dist');
       if (distEl) {
-        distEl.textContent = `${(t.distance / 100).toFixed(2)} m / 1.00 m`;
+        distEl.textContent = `${(waterHeightCm / 100).toFixed(2)} m / 1.00 m`;
       }
 
       // Dynamic frosted glass water level styling
       const st1WaterBody = document.getElementById('st1WaterBody');
       const st1WaterSurface = document.getElementById('st1WaterSurface');
       if (st1WaterBody && st1WaterSurface) {
-        st1WaterBody.style.height = `${t.percent}%`;
-        st1WaterSurface.style.bottom = `calc(${t.percent}% - calc(var(--ellipse-h) / 2))`;
+        st1WaterBody.style.height = `${pct}%`;
+        st1WaterSurface.style.bottom = `calc(${pct}% - calc(var(--ellipse-h) / 2))`;
       }
 
       // Progress Ring segment update
       const circle = document.getElementById('tank1Circle');
       if (circle) {
         const circumference = 163.36;
-        const offset = circumference - (t.percent / 100) * circumference;
+        const offset = circumference - (pct / 100) * circumference;
         circle.style.strokeDashoffset = offset;
       }
 
@@ -2691,7 +2754,7 @@
       // SVG Flow diagram level
       const el = document.getElementById('svgT1Water');
       if (el) {
-        const h = Math.round((t.percent / 100) * 18);
+        const h = Math.round((pct / 100) * 18);
         el.setAttribute('height', h);
         el.setAttribute('y', 38 - h);
       }
@@ -2699,29 +2762,46 @@
 
     function renderTank2() {
       const t = appState.tank2;
+      let dist = t.distance; // Measured distance from top (in cm)
+      let pct = t.percent;
+
+      let waterHeightCm = 0;
+
+      // Sub tank height is 1.00 m (100 cm).
+      // Measured distance is from the top.
+      if (dist !== undefined && dist !== null) {
+        waterHeightCm = 100 - dist;
+        waterHeightCm = Math.min(Math.max(waterHeightCm, 0), 100);
+        pct = waterHeightCm;
+      } else if (pct !== undefined && pct !== null) {
+        pct = Math.min(Math.max(pct, 0), 100);
+        waterHeightCm = pct;
+        dist = 100 - waterHeightCm;
+      }
+
       const pctEl = document.getElementById('tank2Pct');
       if (pctEl) {
         pctEl.classList.remove('shimmer');
-        pctEl.textContent = `${t.percent.toFixed(0)}%`;
+        pctEl.textContent = `${pct.toFixed(0)}%`;
       }
       const distEl = document.getElementById('tank2Dist');
       if (distEl) {
-        distEl.textContent = `${(t.distance / 100).toFixed(2)} m / 1.00 m`;
+        distEl.textContent = `${(waterHeightCm / 100).toFixed(2)} m / 1.00 m`;
       }
 
       // Dynamic frosted glass water level styling
       const st2WaterBody = document.getElementById('st2WaterBody');
       const st2WaterSurface = document.getElementById('st2WaterSurface');
       if (st2WaterBody && st2WaterSurface) {
-        st2WaterBody.style.height = `${t.percent}%`;
-        st2WaterSurface.style.bottom = `calc(${t.percent}% - calc(var(--ellipse-h) / 2))`;
+        st2WaterBody.style.height = `${pct}%`;
+        st2WaterSurface.style.bottom = `calc(${pct}% - calc(var(--ellipse-h) / 2))`;
       }
 
       // Progress Ring segment update
       const circle = document.getElementById('tank2Circle');
       if (circle) {
         const circumference = 163.36;
-        const offset = circumference - (t.percent / 100) * circumference;
+        const offset = circumference - (pct / 100) * circumference;
         circle.style.strokeDashoffset = offset;
       }
 
@@ -2731,7 +2811,7 @@
       // SVG Flow diagram level
       const el = document.getElementById('svgT2Water');
       if (el) {
-        const h = Math.round((t.percent / 100) * 18);
+        const h = Math.round((pct / 100) * 18);
         el.setAttribute('height', h);
         el.setAttribute('y', 110 - h);
       }
