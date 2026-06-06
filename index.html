@@ -1,28 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
   <!-- PWA Manifest - ONLY ONE! -->
   <link rel="manifest" href="/manifest.json">
-  
+
   <!-- iOS Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="AquaSkynk">
+  <meta name="apple-mobile-web-app-title" content="AquaSynk">
   <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-  
+
   <!-- Theme Color -->
   <meta name="theme-color" content="#0055ff">
-  
-  <title>AquaSkynk</title>
-  
+
+  <title>AquaSynk</title>
+
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
   <style>
     /* Your CSS here */
     :root {
@@ -477,8 +479,15 @@
     }
 
     @keyframes pulse-fill {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
     }
 
     .sub-body {
@@ -564,6 +573,31 @@
       gap: 2px;
     }
 
+    .sub-battery-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 6px 10px;
+      background: rgba(248, 250, 262, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(226, 232, 240, 0.5);
+      font-size: 10.5px;
+      color: var(--text-sub);
+      transition: all 0.3s ease;
+    }
+
+    body.dark-theme .sub-battery-row {
+      background: rgba(13, 22, 35, 0.4);
+      border-color: rgba(255, 255, 255, 0.04);
+      color: var(--text-sub);
+    }
+
+    .battery-icon-wrap {
+      display: flex;
+      align-items: center;
+    }
+
     .sparkline-trend-val.up {
       color: var(--success-text);
     }
@@ -609,7 +643,7 @@
       font-weight: 700;
       font-size: 12px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.1s cubic-bezier(0.16, 1, 0.3, 1);
       background: transparent;
       color: var(--text-sub);
       display: flex;
@@ -682,7 +716,9 @@
     }
 
     @keyframes ctrl-spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .ctrl-card.active-ctrl {
@@ -761,7 +797,7 @@
       justify-content: center;
       cursor: pointer;
       color: var(--text-sub);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .power-btn-skeuo:active {
@@ -859,7 +895,6 @@
     /* Flow diagram section */
     .flow-card {
       padding: 18px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 262, 0.85) 100%);
     }
 
     .flow-title {
@@ -873,12 +908,14 @@
     }
 
     .flow-svg-wrap {
-      background: linear-gradient(180deg, rgba(241, 245, 249, 0.6) 0%, rgba(248, 250, 262, 0.3) 100%);
-      border: 1px solid rgba(226, 232, 240, 0.4);
-      border-radius: 20px;
-      padding: 12px 10px;
+      background: var(--bg-app);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 15px 12px;
       display: flex;
       justify-content: center;
+      box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
     }
 
     .flow-svg {
@@ -886,14 +923,75 @@
       max-width: 370px;
     }
 
+    .flow-svg rect:not([id*="Water"]) {
+      fill: rgba(0, 85, 255, 0.02) !important;
+      stroke: var(--border) !important;
+      stroke-width: 1.5px !important;
+      rx: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .flow-svg circle:not([id$="Core"]) {
+      fill: rgba(0, 85, 255, 0.02) !important;
+      stroke: var(--border) !important;
+      stroke-width: 1.5px !important;
+      transition: all 0.3s ease;
+    }
+
+    #svgPumpARing {
+      fill: rgba(255, 255, 255, 0.4) !important;
+      stroke: var(--border) !important;
+      stroke-width: 1.5px !important;
+      transition: all 0.3s ease;
+    }
+
+    .flow-svg line:not([id$="-flow"]),
+    .flow-svg path:not([id$="-flow"]) {
+      stroke: var(--border) !important;
+      stroke-width: 3px !important;
+      transition: all 0.3s ease;
+    }
+
+    .flow-svg text {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      fill: var(--text-sub) !important;
+      transition: all 0.3s ease;
+    }
+
     @keyframes flow-move {
-      0% { stroke-dashoffset: 24; }
-      100% { stroke-dashoffset: 0; }
+      0% {
+        stroke-dashoffset: 24;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
     }
 
     .flow-pipe-active {
       stroke-dasharray: 6 6;
       animation: flow-move 0.8s linear infinite;
+      stroke: var(--primary) !important;
+      filter: drop-shadow(0 0 3px var(--primary));
+    }
+
+    .flow-svg rect[id$="Water"] {
+      filter: drop-shadow(0 0 3px rgba(0, 180, 216, 0.6));
+    }
+
+    @keyframes spin-impeller {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinning {
+      animation: spin-impeller 1.2s linear infinite;
     }
 
     /* Control Device Image Styles */
@@ -914,8 +1012,15 @@
     }
 
     @keyframes valve-pulse {
-      0%, 100% { filter: grayscale(0%) opacity(100%) drop-shadow(0 0 3px rgba(16, 185, 129, 0.4)); }
-      50% { filter: grayscale(0%) opacity(100%) drop-shadow(0 0 10px rgba(16, 185, 129, 0.85)); }
+
+      0%,
+      100% {
+        filter: grayscale(0%) opacity(100%) drop-shadow(0 0 3px rgba(16, 185, 129, 0.4));
+      }
+
+      50% {
+        filter: grayscale(0%) opacity(100%) drop-shadow(0 0 10px rgba(16, 185, 129, 0.85));
+      }
     }
 
     /* Pipeline Device Styles */
@@ -981,8 +1086,13 @@
     }
 
     @keyframes shimmer {
-      0% { background-position: 200% 0 }
-      100% { background-position: -200% 0 }
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
     }
 
     /* ----------------------------------------------------
@@ -1002,7 +1112,7 @@
       left: calc(var(--tank-w) * -0.1);
       width: calc(var(--tank-w) * 1.2);
       height: calc(var(--ellipse-h) * 0.65);
-      background: radial-gradient(ellipse, rgba(0,0,0,0.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(0, 0, 0, 0.12) 0%, transparent 70%);
       border-radius: 50%;
       z-index: 0;
       pointer-events: none;
@@ -1014,8 +1124,8 @@
       bottom: calc(var(--ellipse-h) * 0.5);
       left: 0;
       width: var(--tank-w);
-      height: calc(var(--tank-h) - var(--ellipse-h) * 1.1);
-      border-radius: 0 0 calc(var(--tank-w) / 2) calc(var(--tank-w) / 2) / 0 0 calc(var(--ellipse-h) / 2) calc(var(--ellipse-h) / 2);
+      height: calc(var(--tank-h) - var(--ellipse-h) * 0.6);
+      border-radius: 50% / calc(var(--ellipse-h) / 2);
       overflow: hidden;
       z-index: 2;
     }
@@ -1025,11 +1135,10 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(90deg,
-        #dce8f3 0%,
-        #f4f8fc 40%,
-        #f4f8fc 60%,
-        #d5e4f0 100%
-      );
+          #dce8f3 0%,
+          #f4f8fc 40%,
+          #f4f8fc 60%,
+          #d5e4f0 100%);
     }
 
     /* Water Body (Liquid Column) */
@@ -1038,31 +1147,32 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 0; /* Updated via JS */
+      height: 0;
+      /* Updated via JS */
       background: linear-gradient(90deg,
-        #0077B6 0%,
-        #48CAE4 28%,
-        #00B4D8 52%,
-        #48CAE4 75%,
-        #0077B6 100%
-      );
+          #0077B6 0%,
+          #48CAE4 28%,
+          #00B4D8 52%,
+          #48CAE4 75%,
+          #0077B6 100%);
       transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 0 20px rgba(72, 202, 228, 0.45);
     }
 
     /* Water Surface Ellipse */
     .water-surface {
       position: absolute;
-      bottom: 0; /* Updated via JS */
+      bottom: 0;
+      /* Updated via JS */
       left: 0;
       width: var(--tank-w);
       height: var(--ellipse-h);
       border-radius: 50%;
       background: radial-gradient(ellipse at 50% 40%,
-        #ADE8F4 0%,
-        #90E0EF 50%,
-        #48CAE4 100%
-      );
-      box-shadow: inset 0 3px 10px rgba(255,255,255,0.5);
+          #ADE8F4 0%,
+          #90E0EF 50%,
+          #48CAE4 100%);
+      box-shadow: 0 0 15px rgba(72, 202, 228, 0.6), inset 0 3px 10px rgba(255, 255, 255, 0.6);
       overflow: hidden;
       transition: bottom 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -1070,32 +1180,53 @@
     /* Ripples inside the surface */
     .ripple {
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
-      border: 1.5px solid rgba(255,255,255,0.85);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
       border-radius: 50%;
       pointer-events: none;
     }
 
-    .ripple.r1 { animation: rippleEffect 1.8s ease-out infinite; animation-delay: 0.0s; }
-    .ripple.r2 { animation: rippleEffect 1.8s ease-out infinite; animation-delay: 0.6s; }
-    .ripple.r3 { animation: rippleEffect 1.8s ease-out infinite; animation-delay: 1.2s; }
+    .ripple.r1 {
+      animation: rippleEffect 1.8s ease-out infinite;
+      animation-delay: 0.0s;
+    }
+
+    .ripple.r2 {
+      animation: rippleEffect 1.8s ease-out infinite;
+      animation-delay: 0.6s;
+    }
+
+    .ripple.r3 {
+      animation: rippleEffect 1.8s ease-out infinite;
+      animation-delay: 1.2s;
+    }
 
     @keyframes rippleEffect {
-      0%   { width: 0px; height: 0px; opacity: 0.9; }
-      100% { width: calc(var(--tank-w) * 0.95); height: calc(var(--ellipse-h) * 0.95); opacity: 0; }
+      0% {
+        width: 0px;
+        height: 0px;
+        opacity: 0.9;
+      }
+
+      100% {
+        width: calc(var(--tank-w) * 0.95);
+        height: calc(var(--ellipse-h) * 0.95);
+        opacity: 0;
+      }
     }
 
     /* Frosted glass overlay styling */
     .glass-tube {
       position: absolute;
       inset: 0;
-      background: rgba(255,255,255,0.13);
+      background: rgba(255, 255, 255, 0.13);
       backdrop-filter: blur(10px) saturate(1.2);
       -webkit-backdrop-filter: blur(10px) saturate(1.2);
       box-shadow:
-        inset 12px 0 22px rgba(255,255,255,0.55),
-        inset -8px 0 16px rgba(0,0,0,0.04);
+        inset 12px 0 22px rgba(255, 255, 255, 0.55),
+        inset -8px 0 16px rgba(0, 0, 0, 0.04);
       pointer-events: none;
     }
 
@@ -1104,14 +1235,14 @@
       content: '';
       position: absolute;
       left: calc(var(--tank-w) * 0.08);
-      top: 0; bottom: 0;
+      top: 0;
+      bottom: 0;
       width: calc(var(--tank-w) * 0.06);
       background: linear-gradient(180deg,
-        rgba(255,255,255,0.0),
-        rgba(255,255,255,0.65) 30%,
-        rgba(255,255,255,0.65) 70%,
-        rgba(255,255,255,0.0)
-      );
+          rgba(255, 255, 255, 0.0),
+          rgba(255, 255, 255, 0.65) 30%,
+          rgba(255, 255, 255, 0.65) 70%,
+          rgba(255, 255, 255, 0.0));
       border-radius: 5px;
       filter: blur(3px);
     }
@@ -1125,15 +1256,14 @@
       height: var(--ellipse-h);
       border-radius: 50%;
       background: linear-gradient(175deg,
-        rgba(255,255,255,0.98) 0%,
-        rgba(225,238,250,0.90) 55%,
-        rgba(200,222,242,0.95) 100%
-      );
+          rgba(255, 255, 255, 0.98) 0%,
+          rgba(225, 238, 250, 0.90) 55%,
+          rgba(200, 222, 242, 0.95) 100%);
       box-shadow:
-        0 -3px 10px rgba(255,255,255,0.9),
-        0  5px 14px rgba(0,0,0,0.07),
-        inset 0 2px 8px rgba(255,255,255,1),
-        inset 0 -3px 8px rgba(180,210,235,0.4);
+        0 -3px 10px rgba(255, 255, 255, 0.9),
+        0 5px 14px rgba(0, 0, 0, 0.07),
+        inset 0 2px 8px rgba(255, 255, 255, 1),
+        inset 0 -3px 8px rgba(180, 210, 235, 0.4);
       z-index: 8;
       pointer-events: none;
     }
@@ -1147,13 +1277,12 @@
       height: calc(var(--ellipse-h) * 0.65);
       border-radius: 50%;
       background: radial-gradient(ellipse at 50% 55%,
-        rgba(160,205,230,0.50) 0%,
-        rgba(130,185,220,0.25) 55%,
-        rgba(100,160,210,0.08) 100%
-      );
+          rgba(160, 205, 230, 0.50) 0%,
+          rgba(130, 185, 220, 0.25) 55%,
+          rgba(100, 160, 210, 0.08) 100%);
       box-shadow:
-        inset 0 5px 16px rgba(0,0,0,0.12),
-        inset 0 -2px 6px rgba(255,255,255,0.20);
+        inset 0 5px 16px rgba(0, 0, 0, 0.12),
+        inset 0 -2px 6px rgba(255, 255, 255, 0.20);
       z-index: 9;
       pointer-events: none;
     }
@@ -1171,8 +1300,8 @@
     .reservoir-scene .glass-tube {
       /* Increased refraction shadows inside the glass to make it look visually thicker */
       box-shadow:
-        inset 20px 0 35px rgba(255,255,255,0.65),
-        inset -14px 0 24px rgba(0,0,0,0.06);
+        inset 20px 0 35px rgba(255, 255, 255, 0.65),
+        inset -14px 0 24px rgba(0, 0, 0, 0.06);
     }
 
     .reservoir-scene .glass-tube::before {
@@ -1222,7 +1351,9 @@
         margin-bottom: 2px;
       }
 
-      .ctrl-name { font-size: 9.5px; }
+      .ctrl-name {
+        font-size: 9.5px;
+      }
 
       .ctrl-status-badge {
         font-size: 8px;
@@ -1230,9 +1361,21 @@
         margin-bottom: 4px;
       }
 
-      .power-btn-recess { width: 32px; height: 32px; }
-      .power-btn-skeuo { width: 24px; height: 24px; }
-      .power-btn-skeuo svg { width: 10px; height: 10px; stroke-width: 3.5; }
+      .power-btn-recess {
+        width: 32px;
+        height: 32px;
+      }
+
+      .power-btn-skeuo {
+        width: 24px;
+        height: 24px;
+      }
+
+      .power-btn-skeuo svg {
+        width: 10px;
+        height: 10px;
+        stroke-width: 3.5;
+      }
 
       .sub-tanks-grid {
         padding: 0 12px;
@@ -1240,7 +1383,9 @@
         margin-bottom: 12px;
       }
 
-      .sub-card { padding: 12px 8px; }
+      .sub-card {
+        padding: 12px 8px;
+      }
 
       .sub-body {
         gap: 6px;
@@ -1252,9 +1397,19 @@
         height: 80px;
       }
 
-      .progress-ring-container { width: 50px; height: 50px; }
-      .progress-ring { width: 50px; height: 50px; }
-      .progress-ring-text { font-size: 11px; }
+      .progress-ring-container {
+        width: 50px;
+        height: 50px;
+      }
+
+      .progress-ring {
+        width: 50px;
+        height: 50px;
+      }
+
+      .progress-ring-text {
+        font-size: 11px;
+      }
 
       .sub-tank-desc {
         font-size: 8px;
@@ -1272,11 +1427,23 @@
         gap: 6px;
       }
 
-      .metric-icon { width: 26px; height: 26px; }
-      .metric-icon svg { width: 12px; height: 12px; }
+      .metric-icon {
+        width: 26px;
+        height: 26px;
+      }
 
-      .metric-name { font-size: 8px; }
-      .metric-value { font-size: 10px; }
+      .metric-icon svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .metric-name {
+        font-size: 8px;
+      }
+
+      .metric-value {
+        font-size: 10px;
+      }
 
       /* Responsive 3D Glass Cylinders */
       .reservoir-scene {
@@ -1313,7 +1480,7 @@
       align-items: center;
       justify-content: center;
       box-shadow: var(--shadow-card);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.1s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 10;
     }
 
@@ -1338,12 +1505,15 @@
     body.dark-theme .sun-icon {
       display: block;
     }
+
     body.dark-theme .moon-icon {
       display: none;
     }
+
     body:not(.dark-theme) .sun-icon {
       display: none;
     }
+
     body:not(.dark-theme) .moon-icon {
       display: block;
     }
@@ -1355,6 +1525,7 @@
         width: 34px;
         height: 34px;
       }
+
       .theme-toggle-btn svg {
         width: 16px;
         height: 16px;
@@ -1378,10 +1549,21 @@
       flex-direction: column;
     }
 
-    .reservoir-section { order: 1; }
-    .sub-tanks-section { order: 2; }
-    .controls-section { order: 3; }
-    .pipeline-section { order: 4; }
+    .reservoir-section {
+      order: 1;
+    }
+
+    .sub-tanks-section {
+      order: 2;
+    }
+
+    .controls-section {
+      order: 3;
+    }
+
+    .pipeline-section {
+      order: 4;
+    }
 
     /* Centered layout for medium screens (tablets) */
     @media (min-width: 600px) and (max-width: 899px) {
@@ -1392,6 +1574,7 @@
         min-height: calc(100vh - 48px);
         box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
       }
+
       body.dark-theme .app {
         box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
       }
@@ -1422,10 +1605,21 @@
         padding: 0 16px;
       }
 
-      .reservoir-section { grid-area: reservoir; }
-      .pipeline-section { grid-area: pipeline; }
-      .sub-tanks-section { grid-area: subtanks; }
-      .controls-section { grid-area: controls; }
+      .reservoir-section {
+        grid-area: reservoir;
+      }
+
+      .pipeline-section {
+        grid-area: pipeline;
+      }
+
+      .sub-tanks-section {
+        grid-area: subtanks;
+      }
+
+      .controls-section {
+        grid-area: controls;
+      }
 
       /* Reset card margins inside columns to allow grid/gap spacing */
       .reservoir-section .card,
@@ -1484,7 +1678,7 @@
       .card-section-title {
         padding: 10px 0 12px;
       }
-      
+
       .card-section-title h3 {
         font-size: 19px;
       }
@@ -1500,11 +1694,11 @@
       .controls-title {
         font-size: 20px;
       }
-      
+
       .ctrl-card {
         padding: 18px 12px;
       }
-      
+
       .ctrl-name {
         font-size: 15px;
       }
@@ -1557,11 +1751,10 @@
     /* Glass Cylinder adaptations */
     body.dark-theme .glass-back {
       background: linear-gradient(90deg,
-        #0e1724 0%,
-        #152232 40%,
-        #152232 60%,
-        #0e1724 100%
-      );
+          #0e1724 0%,
+          #152232 40%,
+          #152232 60%,
+          #0e1724 100%);
     }
 
     body.dark-theme .glass-tube {
@@ -1573,19 +1766,17 @@
 
     body.dark-theme .glass-tube::before {
       background: linear-gradient(180deg,
-        rgba(255, 255, 255, 0.0),
-        rgba(255, 255, 255, 0.3) 30%,
-        rgba(255, 255, 255, 0.3) 70%,
-        rgba(255, 255, 255, 0.0)
-      );
+          rgba(255, 255, 255, 0.0),
+          rgba(255, 255, 255, 0.3) 30%,
+          rgba(255, 255, 255, 0.3) 70%,
+          rgba(255, 255, 255, 0.0));
     }
 
     body.dark-theme .rim-band {
       background: linear-gradient(175deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(40, 60, 85, 0.4) 55%,
-        rgba(20, 31, 46, 0.6) 100%
-      );
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(40, 60, 85, 0.4) 55%,
+          rgba(20, 31, 46, 0.6) 100%);
       box-shadow:
         0 -3px 10px rgba(255, 255, 255, 0.05),
         0 5px 14px rgba(0, 0, 0, 0.45),
@@ -1595,10 +1786,9 @@
 
     body.dark-theme .rim-opening {
       background: radial-gradient(ellipse at 50% 55%,
-        rgba(44, 62, 85, 0.3) 0%,
-        rgba(20, 31, 46, 0.15) 55%,
-        transparent 100%
-      );
+          rgba(44, 62, 85, 0.3) 0%,
+          rgba(20, 31, 46, 0.15) 55%,
+          transparent 100%);
       box-shadow:
         inset 0 5px 16px rgba(0, 0, 0, 0.5),
         inset 0 -2px 6px rgba(255, 255, 255, 0.05);
@@ -1606,11 +1796,14 @@
 
     body.dark-theme .water-surface {
       background: radial-gradient(ellipse at 50% 40%,
-        #c5f1ff 0%,
-        #76dcfc 50%,
-        #0077b6 100%
-      );
-      box-shadow: inset 0 3px 10px rgba(255,255,255,0.25);
+          #c5f1ff 0%,
+          #76dcfc 50%,
+          #0077b6 100%);
+      box-shadow: 0 0 20px rgba(0, 180, 216, 0.85), inset 0 3px 10px rgba(255, 255, 255, 0.35);
+    }
+
+    body.dark-theme .water-body {
+      box-shadow: inset 0 0 25px rgba(0, 180, 216, 0.6);
     }
 
     body.dark-theme .gauge-track {
@@ -1679,33 +1872,30 @@
     }
 
     /* Pipeline Flow Panel adaptations */
-    body.dark-theme .flow-card {
-      background: var(--bg-card);
-    }
-
     body.dark-theme .flow-svg-wrap {
-      background: rgba(11, 18, 30, 0.4);
-      border-color: rgba(255, 255, 255, 0.05);
+      background: #0d1624;
+      border-color: var(--border);
+      box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.45);
     }
 
     body.dark-theme .flow-svg rect:not([id*="Water"]) {
-      fill: #0d1624;
-      stroke: #1f2d40;
+      fill: rgba(255, 255, 255, 0.01) !important;
+      stroke: var(--border) !important;
     }
 
     body.dark-theme .flow-svg circle:not([id$="Core"]) {
-      fill: #0d1624;
-      stroke: #1f2d40;
+      fill: rgba(255, 255, 255, 0.01) !important;
+      stroke: var(--border) !important;
     }
 
     body.dark-theme #svgPumpARing {
-      fill: #142033;
-      stroke: #23344d;
+      fill: rgba(0, 0, 0, 0.2) !important;
+      stroke: var(--border) !important;
     }
 
     body.dark-theme .flow-svg line:not([id$="-flow"]),
     body.dark-theme .flow-svg path:not([id$="-flow"]) {
-      stroke: #1e293b;
+      stroke: var(--border) !important;
     }
   </style>
 </head>
@@ -1736,7 +1926,7 @@
           </svg>
           <div class="brand-title"
             style="font-size: 20px; font-weight: 800; color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.5px;">
-            AquaSkynk</div>
+            AquaSynk</div>
           <span class="conn-dot" id="connDot"></span>
         </div>
         <div class="brand-sub"
@@ -1745,7 +1935,8 @@
       </div>
       <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Theme">
         <!-- Sun Icon -->
-        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
           <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -1757,7 +1948,8 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
         <!-- Moon Icon -->
-        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
@@ -1775,7 +1967,8 @@
         <div class="alert-icon">⚠️</div>
         <div class="alert-meta">
           <span class="alert-title">Reservoir level critical</span>
-          <span class="alert-desc">Main reservoir is below 25% (Refills suspended). Please check manual inflow valves.</span>
+          <span class="alert-desc">Main reservoir is below 25% (Refills suspended). Please check manual inflow
+            valves.</span>
         </div>
       </div>
 
@@ -1785,494 +1978,549 @@
         <div class="reservoir-section">
           <!-- MAIN RESERVOIR -->
           <div class="card reservoir-card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <h2 class="card-title">Main Reservoir</h2>
-            <span class="status-badge online" id="resStatusBadge">
-              <span class="status-dot"></span> Online
-            </span>
-          </div>
-        </div>
-
-        <div class="card-body reservoir-body">
-          <!-- 3D Glass Cylinder Reservoir Tank -->
-          <div class="tank-graphic-container">
-            <div class="glass-scene reservoir-scene">
-              <div class="glass-shadow"></div>
-              <div class="glass-container">
-                <div class="glass-back"></div>
-                <div class="water-body" id="resWaterBody"></div>
-                <div class="water-surface" id="resWaterSurface">
-                  <div class="ripple r1"></div>
-                  <div class="ripple r2"></div>
-                  <div class="ripple r3"></div>
-                </div>
-                <div class="glass-tube"></div>
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Main Reservoir</h2>
+                <span class="status-badge offline" id="resStatusBadge">
+                  <span class="status-dot"></span> Offline
+                </span>
               </div>
-              <div class="rim-band"></div>
-              <div class="rim-opening"></div>
             </div>
-          </div>
 
-          <div class="level-stats">
-            <span class="level-label">Water Level</span>
-            <div class="level-pct" id="resPct">72%</div>
-            <span class="level-depth" id="resDistLabel">0.79 m / 1.10 m (398.1 L)</span>
-          </div>
+            <div class="card-body reservoir-body">
+              <!-- 3D Glass Cylinder Reservoir Tank -->
+              <div class="tank-graphic-container">
+                <div class="glass-scene reservoir-scene">
+                  <div class="glass-shadow"></div>
+                  <div class="glass-container">
+                    <div class="glass-back"></div>
+                    <div class="water-body" id="resWaterBody"></div>
+                    <div class="water-surface" id="resWaterSurface">
+                      <div class="ripple r1"></div>
+                      <div class="ripple r2"></div>
+                      <div class="ripple r3"></div>
+                    </div>
+                    <div class="glass-tube"></div>
+                  </div>
+                  <div class="rim-band"></div>
+                  <div class="rim-opening"></div>
+                </div>
+              </div>
 
-          <!-- Vertical Gauge -->
-          <div class="gauge-vertical-container">
-            <div class="gauge-scale">
-              <span>1.10 m</span>
-              <span>0 m</span>
-            </div>
-            <div class="gauge-track">
-              <div class="gauge-fill" id="resGaugeFill" style="height:72%"></div>
-            </div>
-          </div>
-        </div>
+              <div class="level-stats">
+                <span class="level-label">Water Level</span>
+                <div class="level-pct" id="resPct">72%</div>
+                <span class="level-depth" id="resDistLabel">0.79 m / 1.10 m (398.1 L)</span>
+              </div>
 
-        <div class="metrics-row">
-          <div class="metric-widget">
-            <div class="metric-icon blue">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round">
-                <path d="M2 12c4-4 8-4 12 0s8 4 12 0"></path>
-                <path d="M2 6c4-4 8-4 12 0s8 4 12 0"></path>
-                <path d="M2 18c4-4 8-4 12 0s8 4 12 0"></path>
-              </svg>
+              <!-- Vertical Gauge -->
+              <div class="gauge-vertical-container">
+                <div class="gauge-scale">
+                  <span>1.10 m</span>
+                  <span>0 m</span>
+                </div>
+                <div class="gauge-track">
+                  <div class="gauge-fill" id="resGaugeFill" style="height:72%"></div>
+                </div>
+              </div>
             </div>
-            <div class="metric-meta">
-              <span class="metric-name">Capacity</span>
-              <span class="metric-value">552.9 L</span>
+
+            <div class="metrics-row">
+              <div class="metric-widget">
+                <div class="metric-icon blue">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <path d="M2 12c4-4 8-4 12 0s8 4 12 0"></path>
+                    <path d="M2 6c4-4 8-4 12 0s8 4 12 0"></path>
+                    <path d="M2 18c4-4 8-4 12 0s8 4 12 0"></path>
+                  </svg>
+                </div>
+                <div class="metric-meta">
+                  <span class="metric-name">Capacity</span>
+                  <span class="metric-value">552.9 L</span>
+                </div>
+              </div>
+              <div class="metric-widget">
+                <div class="metric-icon purple">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <line x1="12" y1="2" x2="12" y2="22"></line>
+                  </svg>
+                </div>
+                <div class="metric-meta">
+                  <span class="metric-name">Diameter</span>
+                  <span class="metric-value">80 cm</span>
+                </div>
+              </div>
+              <div class="metric-widget">
+                <div class="metric-icon green">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="metric-meta">
+                  <span class="metric-name">Updated</span>
+                  <span class="metric-value" id="lastSyncTimeHeader">Just now</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="metric-widget">
-            <div class="metric-icon purple">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <line x1="12" y1="2" x2="12" y2="22"></line>
-              </svg>
-            </div>
-            <div class="metric-meta">
-              <span class="metric-name">Diameter</span>
-              <span class="metric-value">80 cm</span>
-            </div>
-          </div>
-          <div class="metric-widget">
-            <div class="metric-icon green">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-            </div>
-            <div class="metric-meta">
-              <span class="metric-name">Updated</span>
-              <span class="metric-value" id="lastSyncTimeHeader">Just now</span>
-            </div>
-          </div>
-        </div>
-      </div>
         </div><!-- /reservoir-section -->
 
         <!-- PIPELINE SECTION -->
         <div class="pipeline-section">
           <!-- INTERACTIVE PIPELINE FLOW -->
           <div class="card-section-title">
-              <h3>System Pipeline</h3>
+            <h3>System Pipeline</h3>
           </div>
           <div class="card flow-card">
-          <div class="flow-title">REALTIME PIPE ROUTING OVERVIEW</div>
-          <div class="flow-svg-wrap">
+            <div class="flow-title">REALTIME PIPE ROUTING OVERVIEW</div>
+            <div class="flow-svg-wrap">
               <svg class="flow-svg" viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                      <filter id="glow-filter">
-                          <feGaussianBlur stdDeviation="1.5" result="blur" />
-                          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                      </filter>
-                      <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stop-color="rgba(46,139,255,0.85)" />
-                          <stop offset="100%" stop-color="rgba(0,102,255,0.95)" />
-                      </linearGradient>
-                      <linearGradient id="waterGradT" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stop-color="rgba(46,139,255,0.8)" />
-                          <stop offset="100%" stop-color="rgba(0,102,255,0.9)" />
-                      </linearGradient>
-                  </defs>
+                <defs>
+                  <filter id="glow-filter">
+                    <feGaussianBlur stdDeviation="1.5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="rgba(46,139,255,0.85)" />
+                    <stop offset="100%" stop-color="rgba(0,102,255,0.95)" />
+                  </linearGradient>
+                  <linearGradient id="waterGradT" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="rgba(46,139,255,0.8)" />
+                    <stop offset="100%" stop-color="rgba(0,102,255,0.9)" />
+                  </linearGradient>
+                </defs>
 
-                  <!-- RESERVOIR (left) -->
-                  <rect x="10" y="40" width="60" height="60" rx="7" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <clipPath id="resClip"><rect x="10" y="40" width="60" height="60" rx="6" /></clipPath>
-                  <rect x="10" id="svgResWater" y="100" width="60" height="43" fill="url(#waterGrad)" clip-path="url(#resClip)" style="transition: height 1s ease, y 1s ease" />
-                  <text x="40" y="112" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="var(--text-muted)">RESERV</text>
+                <!-- RESERVOIR (left) -->
+                <rect x="10" y="40" width="60" height="60" rx="7" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <clipPath id="resClip">
+                  <rect x="10" y="40" width="60" height="60" rx="6" />
+                </clipPath>
+                <rect x="10" id="svgResWater" y="100" width="60" height="43" fill="url(#waterGrad)"
+                  clip-path="url(#resClip)" style="transition: height 1s ease, y 1s ease" />
+                <text x="40" y="112" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700"
+                  fill="var(--text-muted)">RESERV</text>
 
-                  <!-- PUMP A (center) -->
-                  <circle cx="170" cy="70" r="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <circle cx="170" cy="70" r="13" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" id="svgPumpARing" />
-                  <text x="170" y="67" text-anchor="middle" font-family="Space Mono" font-size="6.5" font-weight="700" fill="var(--text-sub)">PUMP</text>
-                  <text x="170" y="77" text-anchor="middle" font-family="Space Mono" font-size="6.5" font-weight="700" fill="var(--text-sub)">MAIN</text>
+                <!-- PUMP A (center) -->
+                <circle cx="170" cy="70" r="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <circle cx="170" cy="70" r="13" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" id="svgPumpARing" />
+                <text x="170" y="67" text-anchor="middle" font-family="Space Mono" font-size="6.5" font-weight="700"
+                  fill="var(--text-sub)">MOTOR</text>
+                <text x="170" y="77" text-anchor="middle" font-family="Space Mono" font-size="6.5" font-weight="700"
+                  fill="var(--text-sub)">A</text>
 
-                  <!-- Impeller fan A -->
-                  <g id="svgPumpAImpeller" style="transform-origin: 170px 70px; transition: transform 0.1s;">
-                      <line x1="170" y1="58" x2="170" y2="82" stroke="var(--text-muted)" stroke-width="1.8" stroke-linecap="round" />
-                      <line x1="158" y1="70" x2="182" y2="70" stroke="var(--text-muted)" stroke-width="1.8" stroke-linecap="round" />
-                      <circle cx="170" cy="70" r="4.5" fill="var(--text-muted)" id="svgPumpACore" style="transition:fill 0.4s" />
-                  </g>
+                <!-- Impeller fan A -->
+                <g id="svgPumpAImpeller" style="transform-origin: 170px 70px; transition: transform 0.1s;">
+                  <line x1="170" y1="58" x2="170" y2="82" stroke="var(--text-muted)" stroke-width="1.8"
+                    stroke-linecap="round" />
+                  <line x1="158" y1="70" x2="182" y2="70" stroke="var(--text-muted)" stroke-width="1.8"
+                    stroke-linecap="round" />
+                  <circle cx="170" cy="70" r="4.5" fill="var(--text-muted)" id="svgPumpACore"
+                    style="transition:fill 0.4s" />
+                </g>
 
-                  <!-- PUMP B (center-bottom) -->
-                  <circle cx="170" cy="115" r="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <text x="170" y="112" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-sub)">PUMP</text>
-                  <text x="170" y="120" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-sub)">GARDEN</text>
+                <!-- PUMP B (center-bottom) -->
+                <circle cx="170" cy="115" r="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <text x="170" y="112" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700"
+                  fill="var(--text-sub)">MOTOR</text>
+                <text x="170" y="120" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700"
+                  fill="var(--text-sub)">B</text>
 
-                  <!-- Impeller fan B -->
-                  <g id="svgPumpBImpeller" style="transform-origin: 170px 115px; transition: transform 0.1s;">
-                      <line x1="170" y1="105" x2="170" y2="125" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" />
-                      <line x1="160" y1="115" x2="180" y2="115" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" />
-                      <circle cx="170" cy="115" r="3.5" fill="var(--text-muted)" id="svgPumpBCore" style="transition:fill 0.4s" />
-                  </g>
+                <!-- Impeller fan B -->
+                <g id="svgPumpBImpeller" style="transform-origin: 170px 115px; transition: transform 0.1s;">
+                  <line x1="170" y1="105" x2="170" y2="125" stroke="var(--text-muted)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <line x1="160" y1="115" x2="180" y2="115" stroke="var(--text-muted)" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <circle cx="170" cy="115" r="3.5" fill="var(--text-muted)" id="svgPumpBCore"
+                    style="transition:fill 0.4s" />
+                </g>
 
-                  <!-- VALVE 1 (top right) -->
-                  <rect x="258" y="22" width="40" height="20" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <circle cx="278" cy="32" r="5" fill="var(--text-muted)" id="svgV1Core" style="transition:fill 0.4s" />
-                  <text x="278" y="48" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="var(--text-muted)">VALVE 1</text>
+                <!-- VALVE 1 (top right) -->
+                <rect x="258" y="22" width="40" height="20" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <circle cx="278" cy="32" r="5" fill="var(--text-muted)" id="svgV1Core" style="transition:fill 0.4s" />
+                <text x="278" y="48" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700"
+                  fill="var(--text-muted)">VALVE A</text>
 
-                  <!-- VALVE 2 (bottom right) -->
-                  <rect x="258" y="95" width="40" height="20" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <circle cx="278" cy="105" r="5" fill="var(--text-muted)" id="svgV2Core" style="transition:fill 0.4s" />
-                  <text x="278" y="90" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="var(--text-muted)">VALVE 2</text>
+                <!-- VALVE 2 (bottom right) -->
+                <rect x="258" y="95" width="40" height="20" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <circle cx="278" cy="105" r="5" fill="var(--text-muted)" id="svgV2Core" style="transition:fill 0.4s" />
+                <text x="278" y="90" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700"
+                  fill="var(--text-muted)">VALVE B</text>
 
-                  <!-- TANK A (far right top) -->
-                  <rect x="308" y="16" width="28" height="32" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <clipPath id="ta"><rect x="308" y="16" width="28" height="32" rx="3" /></clipPath>
-                  <rect x="308" id="svgT1Water" y="48" width="28" height="21" fill="url(#waterGradT)" clip-path="url(#ta)" style="transition:height 1s ease, y 1s ease" />
-                  <text x="322" y="56" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-muted)">TANK A</text>
+                <!-- TANK A (far right top) -->
+                <rect x="308" y="16" width="28" height="32" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <clipPath id="ta">
+                  <rect x="308" y="16" width="28" height="32" rx="3" />
+                </clipPath>
+                <rect x="308" id="svgT1Water" y="48" width="28" height="21" fill="url(#waterGradT)" clip-path="url(#ta)"
+                  style="transition:height 1s ease, y 1s ease" />
+                <text x="322" y="56" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700"
+                  fill="var(--text-muted)">TANK 1</text>
 
-                  <!-- TANK B (far right bottom) -->
-                  <rect x="308" y="88" width="28" height="32" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-                  <clipPath id="tb"><rect x="308" y="88" width="28" height="32" rx="3" /></clipPath>
-                  <rect x="308" id="svgT2Water" y="120" width="28" height="12" fill="url(#waterGradT)" clip-path="url(#tb)" style="transition:height 1s ease, y 1s ease" />
-                  <text x="322" y="128" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700" fill="var(--text-muted)">TANK B</text>
+                <!-- TANK B (far right bottom) -->
+                <rect x="308" y="88" width="28" height="32" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+                <clipPath id="tb">
+                  <rect x="308" y="88" width="28" height="32" rx="3" />
+                </clipPath>
+                <rect x="308" id="svgT2Water" y="120" width="28" height="12" fill="url(#waterGradT)"
+                  clip-path="url(#tb)" style="transition:height 1s ease, y 1s ease" />
+                <text x="322" y="128" text-anchor="middle" font-family="Space Mono" font-size="6" font-weight="700"
+                  fill="var(--text-muted)">TANK 2</text>
 
-                  <!-- PIPE: Reservoir → Pump A -->
-                  <line id="pipe-res-pump" x1="70" y1="70" x2="148" y2="70" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
-                  <line id="pipe-res-pump-flow" x1="70" y1="70" x2="148" y2="70" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
-
-                  <!-- PIPE: Pump A → Valve 1 (top) -->
-                  <path id="pipe-pump-v1" d="M 190 70 L 220 32 L 258 32" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                  <path id="pipe-pump-v1-flow" d="M 190 70 L 220 32 L 258 32" fill="none" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
-
-                  <!-- PIPE: Pump A → Valve 2 (bottom) -->
-                  <path id="pipe-pump-v2" d="M 190 70 L 220 105 L 258 105" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                  <path id="pipe-pump-v2-flow" d="M 190 70 L 220 105 L 258 105" fill="none" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
-
-                  <!-- PIPE: Valve 1 → Tank A -->
-                  <line id="pipe-v1-ta" x1="298" y1="32" x2="308" y2="32" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
-                  <line id="pipe-v1-ta-flow" x1="298" y1="32" x2="308" y2="32" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
-
-                  <!-- PIPE: Valve 2 → Tank B -->
-                  <line id="pipe-v2-tb" x1="298" y1="105" x2="308" y2="105" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
-                  <line id="pipe-v2-tb-flow" x1="298" y1="105" x2="308" y2="105" stroke="#0055ff" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
-              </svg>
-          </div>
-      </div>
-    </div><!-- /pipeline-section -->
-
-    <!-- SUB TANKS SECTION -->
-    <div class="sub-tanks-section">
-      <!-- SUB TANKS Title -->
-      <div class="card-section-title">
-        <h3>Sub Tanks</h3>
-      </div>
-
-      <!-- SUB TANKS GRID -->
-      <div class="sub-tanks-grid">
-        <!-- Sub Tank 1 -->
-        <div class="card sub-card" id="tank1Card">
-          <div class="card-header sub-header">
-            <div class="sub-title-group">
-              <h3 class="sub-name">Sub Tank 1</h3>
-              <span class="status-badge online"
-                style="background:none; padding:0; height:auto; color:var(--success-text)">
-                <span class="status-dot"></span> Online
-              </span>
-            </div>
-            <div class="sub-actions">
-              <span class="filling-badge" id="fill1Badge">FILLING</span>
-              <button class="more-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <circle cx="12" cy="5" r="1"></circle>
-                  <circle cx="12" cy="12" r="1"></circle>
-                  <circle cx="12" cy="19" r="1"></circle>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="sub-body">
-            <!-- 3D Glass Cylinder Sub-Tank 1 -->
-            <div class="mini-tank-container">
-              <div class="glass-scene sub-tank-scene">
-                <div class="glass-shadow"></div>
-                <div class="glass-container">
-                  <div class="glass-back"></div>
-                  <div class="water-body" id="st1WaterBody"></div>
-                  <div class="water-surface" id="st1WaterSurface">
-                    <div class="ripple r1"></div>
-                    <div class="ripple r2"></div>
-                    <div class="ripple r3"></div>
-                  </div>
-                  <div class="glass-tube"></div>
-                </div>
-                <div class="rim-band"></div>
-                <div class="rim-opening"></div>
-              </div>
-              <div id="tank1Fill" style="display:none"></div>
-            </div>
-
-            <div class="progress-ring-container">
-              <svg class="progress-ring" viewBox="0 0 64 64" width="100%" height="100%">
-                <circle class="progress-ring__background" stroke="#f1f5f9" stroke-width="5.5" fill="transparent" r="26"
-                  cx="32" cy="32" />
-                <circle class="progress-ring__circle" id="tank1Circle" stroke="var(--success)" stroke-width="5.5"
-                  fill="transparent" r="26" cx="32" cy="32" stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                <!-- PIPE: Reservoir → Pump A -->
+                <line id="pipe-res-pump" x1="70" y1="70" x2="148" y2="70" stroke="#e2e8f0" stroke-width="3"
                   stroke-linecap="round" />
-              </svg>
-              <div class="progress-ring-text" id="tank1Pct">65%</div>
-              <div class="sub-tank-desc" id="tank1Dist" style="position: absolute; bottom: -14px; white-space: nowrap;">
-                0.65 m / 1.00 m</div>
-            </div>
+                <line id="pipe-res-pump-flow" x1="70" y1="70" x2="148" y2="70" stroke="#0055ff" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
 
-            <div id="tank1GaugeFill" style="display:none"></div>
-          </div>
+                <!-- PIPE: Pump A → Valve 1 (top) -->
+                <path id="pipe-pump-v1" d="M 190 70 L 220 32 L 258 32" fill="none" stroke="#e2e8f0" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round" />
+                <path id="pipe-pump-v1-flow" d="M 190 70 L 220 32 L 258 32" fill="none" stroke="#0055ff"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0"
+                  filter="url(#glow-filter)" />
 
-          <div class="sparkline-container" style="margin-top: 20px;">
-            <span class="sparkline-label">Trend (24h)</span>
-            <svg class="sparkline-svg" viewBox="0 0 60 20">
-              <path d="M 0 16 Q 10 8 20 12 T 40 6 T 60 10" fill="none" stroke="var(--success)" stroke-width="1.8"
-                stroke-linecap="round" />
-              <circle cx="60" cy="10" r="3" fill="var(--success)" />
-            </svg>
-            <span class="sparkline-trend-val up">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                <polyline points="18 15 12 9 6 15"></polyline>
-              </svg>
-              4%
-            </span>
-          </div>
-        </div>
+                <!-- PIPE: Pump A → Valve 2 (bottom) -->
+                <path id="pipe-pump-v2" d="M 190 70 L 220 105 L 258 105" fill="none" stroke="#e2e8f0" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round" />
+                <path id="pipe-pump-v2-flow" d="M 190 70 L 220 105 L 258 105" fill="none" stroke="#0055ff"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6" opacity="0"
+                  filter="url(#glow-filter)" />
 
-        <!-- Sub Tank 2 -->
-        <div class="card sub-card" id="tank2Card">
-          <div class="card-header sub-header">
-            <div class="sub-title-group">
-              <h3 class="sub-name">Sub Tank 2</h3>
-              <span class="status-badge online"
-                style="background:none; padding:0; height:auto; color:var(--success-text)">
-                <span class="status-dot"></span> Online
-              </span>
-            </div>
-            <div class="sub-actions">
-              <span class="filling-badge" id="fill2Badge">FILLING</span>
-              <button class="more-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <circle cx="12" cy="5" r="1"></circle>
-                  <circle cx="12" cy="12" r="1"></circle>
-                  <circle cx="12" cy="19" r="1"></circle>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="sub-body">
-            <!-- 3D Glass Cylinder Sub-Tank 2 -->
-            <div class="mini-tank-container">
-              <div class="glass-scene sub-tank-scene">
-                <div class="glass-shadow"></div>
-                <div class="glass-container">
-                  <div class="glass-back"></div>
-                  <div class="water-body" id="st2WaterBody"></div>
-                  <div class="water-surface" id="st2WaterSurface">
-                    <div class="ripple r1"></div>
-                    <div class="ripple r2"></div>
-                    <div class="ripple r3"></div>
-                  </div>
-                  <div class="glass-tube"></div>
-                </div>
-                <div class="rim-band"></div>
-                <div class="rim-opening"></div>
-              </div>
-              <div id="tank2Fill" style="display:none"></div>
-            </div>
-
-            <div class="progress-ring-container">
-              <svg class="progress-ring" viewBox="0 0 64 64" width="100%" height="100%">
-                <circle class="progress-ring__background" stroke="#f1f5f9" stroke-width="5.5" fill="transparent" r="26"
-                  cx="32" cy="32" />
-                <circle class="progress-ring__circle" id="tank2Circle" stroke="var(--primary)" stroke-width="5.5"
-                  fill="transparent" r="26" cx="32" cy="32" stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                <!-- PIPE: Valve 1 → Tank A -->
+                <line id="pipe-v1-ta" x1="298" y1="32" x2="308" y2="32" stroke="#e2e8f0" stroke-width="3"
                   stroke-linecap="round" />
+                <line id="pipe-v1-ta-flow" x1="298" y1="32" x2="308" y2="32" stroke="#0055ff" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
+
+                <!-- PIPE: Valve 2 → Tank B -->
+                <line id="pipe-v2-tb" x1="298" y1="105" x2="308" y2="105" stroke="#e2e8f0" stroke-width="3"
+                  stroke-linecap="round" />
+                <line id="pipe-v2-tb-flow" x1="298" y1="105" x2="308" y2="105" stroke="#0055ff" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="6 6" opacity="0" filter="url(#glow-filter)" />
               </svg>
-              <div class="progress-ring-text" id="tank2Pct">38%</div>
-              <div class="sub-tank-desc" id="tank2Dist" style="position: absolute; bottom: -14px; white-space: nowrap;">
-                0.38 m / 1.00 m</div>
-            </div>
-
-            <div id="tank2GaugeFill" style="display:none"></div>
-          </div>
-
-          <div class="sparkline-container" style="margin-top: 20px;">
-            <span class="sparkline-label">Trend (24h)</span>
-            <svg class="sparkline-svg" viewBox="0 0 60 20">
-              <path d="M 0 14 Q 10 16 20 8 T 40 10 T 60 4" fill="none" stroke="var(--primary)" stroke-width="1.8"
-                stroke-linecap="round" />
-              <circle cx="60" cy="4" r="3" fill="var(--primary)" />
-            </svg>
-            <span class="sparkline-trend-val down">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-              3%
-            </span>
-          </div>
-        </div>
-      </div><!-- /sub-tanks-grid -->
-    </div><!-- /sub-tanks-section -->
-
-    <!-- CONTROLS SECTION -->
-    <div class="controls-section">
-      <!-- CONTROLS CONTAINER -->
-      <div class="card" style="padding: 15px 20px; margin-bottom: 12px">
-        <div class="controls-header">
-          <div class="controls-meta">
-            <h2 class="controls-title" id="modeTitleText">Controls</h2>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="seg-ctrl">
-              <button class="seg-btn manual" id="btnManual" onclick="setMode(true)">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  style="transform: translateY(-0.5px)">
-                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
-                </svg> Manual
-              </button>
-              <button class="seg-btn auto" id="btnAuto" onclick="setMode(false)">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  style="transform: translateY(-0.5px)">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
-                </svg> Auto
-              </button>
             </div>
           </div>
-        </div>
-        <!-- Hidden elements for JS compatibility -->
-        <span id="modeDescText" style="display:none">System self-managing</span>
-      </div>
+        </div><!-- /pipeline-section -->
 
-      <!-- Device Grid -->
-<div class="controls-grid">
-  <!-- Motor A (Pump A) -->
-  <div class="ctrl-card" id="ctrlPA">
-    <div class="manual-lock" id="lockPA"></div>
-    <div class="ctrl-loader"></div>
-    <div class="ctrl-graphic-container">
-      <img src="https://i.postimg.cc/FR81LHNN/motor.png" class="ctrl-device-img" alt="Motor A">
-    </div>
-    <span class="ctrl-name">Motor A</span>
-    <span class="ctrl-sub" style="display:none">PUMP A · RELAY 1</span>
-    <div class="ctrl-status-badge off" id="lblPAContainer">
-      <span class="ctrl-status-dot" id="dotPA"></span>
-      <span id="lblPA">Stopped</span>
-    </div>
-    <div class="power-btn-recess">
-      <button class="power-btn-skeuo" id="btnPA"
-        onclick="toggleControl('pump_a','btnPA','ctrlPA','dotPA','lblPA')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-          stroke-linecap="round">
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
-          <line x1="12" y1="2" x2="12" y2="12"></line>
-        </svg>
-      </button>
-    </div>
-  </div>
+        <!-- SUB TANKS SECTION -->
+        <div class="sub-tanks-section">
+          <!-- SUB TANKS Title -->
+          <div class="card-section-title">
+            <h3>Sub Tanks</h3>
+          </div>
 
-  <!-- Motor B (Pump B) -->
-  <div class="ctrl-card" id="ctrlPB">
-    <div class="manual-lock" id="lockPB"></div>
-    <div class="ctrl-loader"></div>
-    <div class="ctrl-graphic-container">
-      <img src="https://i.postimg.cc/FR81LHNN/motor.png" class="ctrl-device-img" alt="Motor B">
-    </div>
-    <span class="ctrl-name">Motor B</span>
-    <span class="ctrl-sub" style="display:none">PUMP B · RELAY 2</span>
-    <div class="ctrl-status-badge off" id="lblPBContainer">
-      <span class="ctrl-status-dot" id="dotPB"></span>
-      <span id="lblPB">Stopped</span>
-    </div>
-    <div class="power-btn-recess">
-      <button class="power-btn-skeuo" id="btnPB"
-        onclick="toggleControl('pump_b','btnPB','ctrlPB','dotPB','lblPB')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-          stroke-linecap="round">
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
-          <line x1="12" y1="2" x2="12" y2="12"></line>
-        </svg>
-      </button>
-    </div>
-  </div>
+          <!-- SUB TANKS GRID -->
+          <div class="sub-tanks-grid">
+            <!-- Sub Tank 1 -->
+            <div class="card sub-card" id="tank1Card">
+              <div class="card-header sub-header">
+                <div class="sub-title-group">
+                  <h3 class="sub-name">Sub Tank 1</h3>
 
-  <!-- Valve A (Valve 1) -->
-  <div class="ctrl-card" id="ctrlV1">
-    <div class="manual-lock" id="lockV1"></div>
-    <div class="ctrl-loader"></div>
-    <div class="ctrl-graphic-container">
-      <img src="https://i.postimg.cc/KjTjrh8b/valve.png" class="ctrl-device-img" alt="Valve A">
-    </div>
-    <span class="ctrl-name">Valve A</span>
-    <span class="ctrl-sub" style="display:none">MAIN → TANK A</span>
-    <div class="ctrl-status-badge off" id="lblV1Container">
-      <span class="ctrl-status-dot" id="dotV1"></span>
-      <span id="lblV1">Closed</span>
-    </div>
-    <div class="power-btn-recess">
-      <button class="power-btn-skeuo" id="btnV1"
-        onclick="toggleControl('valve_1','btnV1','ctrlV1','dotV1','lblV1')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-          stroke-linecap="round">
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
-          <line x1="12" y1="2" x2="12" y2="12"></line>
-        </svg>
-      </button>
-    </div>
-  </div>
+                  <span class="sub-last-updated" id="tank1LastUpdated"
+                    style="font-size: 9px; color: var(--text-muted); margin-top: 2px; font-weight: 500;">Changed:
+                    --:--:--</span>
+                </div>
+                <div class="sub-actions">
+                  <span class="filling-badge" id="fill1Badge">FILLING</span>
+                  <button class="more-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="sub-body">
+                <!-- 3D Glass Cylinder Sub-Tank 1 -->
+                <div class="mini-tank-container">
+                  <div class="glass-scene sub-tank-scene">
+                    <div class="glass-shadow"></div>
+                    <div class="glass-container">
+                      <div class="glass-back"></div>
+                      <div class="water-body" id="st1WaterBody"></div>
+                      <div class="water-surface" id="st1WaterSurface">
+                        <div class="ripple r1"></div>
+                        <div class="ripple r2"></div>
+                        <div class="ripple r3"></div>
+                      </div>
+                      <div class="glass-tube"></div>
+                    </div>
+                    <div class="rim-band"></div>
+                    <div class="rim-opening"></div>
+                  </div>
+                  <div id="tank1Fill" style="display:none"></div>
+                </div>
 
-  <!-- Valve B (Valve 2) -->
-  <div class="ctrl-card" id="ctrlV2">
-    <div class="manual-lock" id="lockV2"></div>
-    <div class="ctrl-loader"></div>
-    <div class="ctrl-graphic-container">
-      <img src="https://i.postimg.cc/KjTjrh8b/valve.png" class="ctrl-device-img" alt="Valve B">
-    </div>
-    <span class="ctrl-name">Valve B</span>
-    <span class="ctrl-sub" style="display:none">MAIN → TANK B</span>
-    <div class="ctrl-status-badge off" id="lblV2Container">
-      <span class="ctrl-status-dot" id="dotV2"></span>
-      <span id="lblV2">Closed</span>
-    </div>
-    <div class="power-btn-recess">
-      <button class="power-btn-skeuo" id="btnV2"
-        onclick="toggleControl('valve_2','btnV2','ctrlV2','dotV2','lblV2')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-          stroke-linecap="round">
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
-          <line x1="12" y1="2" x2="12" y2="12"></line>
-        </svg>
-      </button>
-    </div>
-  </div>
-</div>
+                <div class="progress-ring-container">
+                  <svg class="progress-ring" viewBox="0 0 64 64" width="100%" height="100%">
+                    <circle class="progress-ring__background" stroke="#f1f5f9" stroke-width="5.5" fill="transparent"
+                      r="26" cx="32" cy="32" />
+                    <circle class="progress-ring__circle" id="tank1Circle" stroke="var(--success)" stroke-width="5.5"
+                      fill="transparent" r="26" cx="32" cy="32" stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                      stroke-linecap="round" />
+                  </svg>
+                  <div class="progress-ring-text" id="tank1Pct">65%</div>
+                  <div class="sub-tank-desc" id="tank1Dist"
+                    style="position: absolute; bottom: -14px; white-space: nowrap;">
+                    650 ml / 1000 ml</div>
+                </div>
 
-    </div><!-- /controls-section -->
-  </div><!-- /DASHBOARD-GRID -->
+                <div id="tank1GaugeFill" style="display:none"></div>
+              </div>
+
+              <!-- Battery Info Row -->
+              <div class="sub-battery-row">
+                <div class="battery-icon-wrap" id="tank1BatIcon"></div>
+                <span id="tank1BatPct" style="font-weight: 600; margin-left: 2px;">--%</span>
+                <span style="flex-grow: 1;"></span>
+                <span id="tank1VBat" style="font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px;">--
+                  V</span>
+              </div>
+
+              <div class="sparkline-container" style="margin-top: 20px;">
+                <span class="sparkline-label">Trend (24h)</span>
+                <svg class="sparkline-svg" viewBox="0 0 60 20">
+                  <path id="tank1SparklinePath" d="M 0 10 L 60 10" fill="none" stroke="var(--success)"
+                    stroke-width="1.8" stroke-linecap="round" />
+                  <circle id="tank1SparklineCircle" cx="60" cy="10" r="3" fill="var(--success)" />
+                </svg>
+                <span class="sparkline-trend-val" id="tank1TrendVal" style="color: var(--text-muted);">
+                  0%
+                </span>
+              </div>
+            </div>
+
+            <!-- Sub Tank 2 -->
+            <div class="card sub-card" id="tank2Card">
+              <div class="card-header sub-header">
+                <div class="sub-title-group">
+                  <h3 class="sub-name">Sub Tank 2</h3>
+
+                  <span class="sub-last-updated" id="tank2LastUpdated"
+                    style="font-size: 9px; color: var(--text-muted); margin-top: 2px; font-weight: 500;">Changed:
+                    --:--:--</span>
+                </div>
+                <div class="sub-actions">
+                  <span class="filling-badge" id="fill2Badge">FILLING</span>
+                  <button class="more-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="sub-body">
+                <!-- 3D Glass Cylinder Sub-Tank 2 -->
+                <div class="mini-tank-container">
+                  <div class="glass-scene sub-tank-scene">
+                    <div class="glass-shadow"></div>
+                    <div class="glass-container">
+                      <div class="glass-back"></div>
+                      <div class="water-body" id="st2WaterBody"></div>
+                      <div class="water-surface" id="st2WaterSurface">
+                        <div class="ripple r1"></div>
+                        <div class="ripple r2"></div>
+                        <div class="ripple r3"></div>
+                      </div>
+                      <div class="glass-tube"></div>
+                    </div>
+                    <div class="rim-band"></div>
+                    <div class="rim-opening"></div>
+                  </div>
+                  <div id="tank2Fill" style="display:none"></div>
+                </div>
+
+                <div class="progress-ring-container">
+                  <svg class="progress-ring" viewBox="0 0 64 64" width="100%" height="100%">
+                    <circle class="progress-ring__background" stroke="#f1f5f9" stroke-width="5.5" fill="transparent"
+                      r="26" cx="32" cy="32" />
+                    <circle class="progress-ring__circle" id="tank2Circle" stroke="var(--primary)" stroke-width="5.5"
+                      fill="transparent" r="26" cx="32" cy="32" stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                      stroke-linecap="round" />
+                  </svg>
+                  <div class="progress-ring-text" id="tank2Pct">38%</div>
+                  <div class="sub-tank-desc" id="tank2Dist"
+                    style="position: absolute; bottom: -14px; white-space: nowrap;">
+                    241 ml / 635 ml</div>
+                </div>
+
+                <div id="tank2GaugeFill" style="display:none"></div>
+              </div>
+
+              <!-- Battery Info Row -->
+              <div class="sub-battery-row">
+                <div class="battery-icon-wrap" id="tank2BatIcon"></div>
+                <span id="tank2BatPct" style="font-weight: 600; margin-left: 2px;">--%</span>
+                <span style="flex-grow: 1;"></span>
+                <span id="tank2VBat" style="font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px;">--
+                  V</span>
+              </div>
+
+              <div class="sparkline-container" style="margin-top: 20px;">
+                <span class="sparkline-label">Trend (24h)</span>
+                <svg class="sparkline-svg" viewBox="0 0 60 20">
+                  <path id="tank2SparklinePath" d="M 0 10 L 60 10" fill="none" stroke="var(--primary)"
+                    stroke-width="1.8" stroke-linecap="round" />
+                  <circle id="tank2SparklineCircle" cx="60" cy="10" r="3" fill="var(--primary)" />
+                </svg>
+                <span class="sparkline-trend-val" id="tank2TrendVal" style="color: var(--text-muted);">
+                  0%
+                </span>
+              </div>
+            </div>
+          </div><!-- /sub-tanks-grid -->
+        </div><!-- /sub-tanks-section -->
+
+        <!-- CONTROLS SECTION -->
+        <div class="controls-section">
+          <!-- CONTROLS CONTAINER -->
+          <div class="card" style="padding: 15px 20px; margin-bottom: 12px">
+            <div class="controls-header">
+              <div class="controls-meta">
+                <h2 class="controls-title" id="modeTitleText">Controls</h2>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="seg-ctrl">
+                  <button class="seg-btn manual" id="btnManual" onclick="setMode(true)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      style="transform: translateY(-0.5px)">
+                      <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+                    </svg> Manual
+                  </button>
+                  <button class="seg-btn auto" id="btnAuto" onclick="setMode(false)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      style="transform: translateY(-0.5px)">
+                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                    </svg> Auto
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Hidden elements for JS compatibility -->
+            <span id="modeDescText" style="display:none">System self-managing</span>
+          </div>
+
+          <!-- Device Grid -->
+          <div class="controls-grid">
+            <!-- Motor A (Pump A) -->
+            <div class="ctrl-card" id="ctrlPA">
+              <div class="manual-lock" id="lockPA"></div>
+              <div class="ctrl-loader"></div>
+              <div class="ctrl-graphic-container">
+                <img src="https://i.postimg.cc/FR81LHNN/motor.png" class="ctrl-device-img" alt="Motor A">
+              </div>
+              <span class="ctrl-name">Motor A</span>
+              <span class="ctrl-sub" style="display:none">PUMP A · RELAY 1</span>
+              <div class="ctrl-status-badge off" id="lblPAContainer">
+                <span class="ctrl-status-dot" id="dotPA"></span>
+                <span id="lblPA">Stopped</span>
+              </div>
+              <div class="power-btn-recess">
+                <button class="power-btn-skeuo" id="btnPA"
+                  onclick="toggleControl('pump_a','btnPA','ctrlPA','dotPA','lblPA')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round">
+                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                    <line x1="12" y1="2" x2="12" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Motor B (Pump B) -->
+            <div class="ctrl-card" id="ctrlPB">
+              <div class="manual-lock" id="lockPB"></div>
+              <div class="ctrl-loader"></div>
+              <div class="ctrl-graphic-container">
+                <img src="https://i.postimg.cc/FR81LHNN/motor.png" class="ctrl-device-img" alt="Motor B">
+              </div>
+              <span class="ctrl-name">Motor B</span>
+              <span class="ctrl-sub" style="display:none">PUMP B · RELAY 2</span>
+              <div class="ctrl-status-badge off" id="lblPBContainer">
+                <span class="ctrl-status-dot" id="dotPB"></span>
+                <span id="lblPB">Stopped</span>
+              </div>
+              <div class="power-btn-recess">
+                <button class="power-btn-skeuo" id="btnPB"
+                  onclick="toggleControl('pump_b','btnPB','ctrlPB','dotPB','lblPB')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round">
+                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                    <line x1="12" y1="2" x2="12" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Valve A (Valve 1) -->
+            <div class="ctrl-card" id="ctrlV1">
+              <div class="manual-lock" id="lockV1"></div>
+              <div class="ctrl-loader"></div>
+              <div class="ctrl-graphic-container">
+                <img src="https://i.postimg.cc/KjTjrh8b/valve.png" class="ctrl-device-img" alt="Valve A">
+              </div>
+              <span class="ctrl-name">Valve A</span>
+              <span class="ctrl-sub" style="display:none">MAIN → TANK A</span>
+              <div class="ctrl-status-badge off" id="lblV1Container">
+                <span class="ctrl-status-dot" id="dotV1"></span>
+                <span id="lblV1">Closed</span>
+              </div>
+              <div class="power-btn-recess">
+                <button class="power-btn-skeuo" id="btnV1"
+                  onclick="toggleControl('valve_1','btnV1','ctrlV1','dotV1','lblV1')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round">
+                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                    <line x1="12" y1="2" x2="12" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Valve B (Valve 2) -->
+            <div class="ctrl-card" id="ctrlV2">
+              <div class="manual-lock" id="lockV2"></div>
+              <div class="ctrl-loader"></div>
+              <div class="ctrl-graphic-container">
+                <img src="https://i.postimg.cc/KjTjrh8b/valve.png" class="ctrl-device-img" alt="Valve B">
+              </div>
+              <span class="ctrl-name">Valve B</span>
+              <span class="ctrl-sub" style="display:none">MAIN → TANK B</span>
+              <div class="ctrl-status-badge off" id="lblV2Container">
+                <span class="ctrl-status-dot" id="dotV2"></span>
+                <span id="lblV2">Closed</span>
+              </div>
+              <div class="power-btn-recess">
+                <button class="power-btn-skeuo" id="btnV2"
+                  onclick="toggleControl('valve_2','btnV2','ctrlV2','dotV2','lblV2')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round">
+                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                    <line x1="12" y1="2" x2="12" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /controls-section -->
+      </div><!-- /DASHBOARD-GRID -->
 
       <div class="last-updated">LAST SYNC — <span id="lastSyncTime">—</span></div>
     </div><!-- /TAB-DASHBOARD -->
@@ -2289,7 +2537,7 @@
     function initTheme() {
       const savedTheme = localStorage.getItem('theme');
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
+
       if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
         document.body.classList.add('dark-theme');
         updateMetaThemeColor('dark');
@@ -2323,7 +2571,7 @@
     const THINGER_WS = 'wss://api.thinger.io';
     const THINGER_USER = 'Hydra_Mesh';
     const THINGER_DEVICE = 'Hydra';
-    const DEVICE_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXYiOiJIeWRyYSIsImlhdCI6MTc3OTI5OTkyMSwianRpIjoiNmEwZGY2NTEwYjBmNjJjMWY4MDc0YWZhIiwic3ZyIjoiYXAtc291dGhlYXN0LmF3cy50aGluZ2VyLmlvIiwidXNyIjoiSHlkcmFfTWVzaCJ9.BUe3r-ZdvtZAnNCB7hTrmhz0QuDoP5qj1DNDw5ywAsQ';
+    const DEVICE_TOKEN = 'your_token';
 
     const API_BASE = `${THINGER_SERVER}/v3/users/${THINGER_USER}/devices/${THINGER_DEVICE}/resources`;
     const REST_HEADERS = {
@@ -2337,13 +2585,32 @@
     // ========================================================
     //  STATE - Updated to match ESP8266 data structure
     // ========================================================
+    let tank1History = JSON.parse(localStorage.getItem('tank1History') || '[]');
+    let tank2History = JSON.parse(localStorage.getItem('tank2History') || '[]');
+    let savedLastChanged1 = localStorage.getItem('tank1LastChanged');
+    let savedLastChanged2 = localStorage.getItem('tank2LastChanged');
+
     let appState = {
       connected: false,
       wsReady: false,
       manualMode: false,
       reservoir: { percent: 72, distance: null, volume: 398.1 },
-      tank1: { percent: 65, distance: null, filling: false },
-      tank2: { percent: 38, distance: null, filling: false },
+      tank1: {
+        percent: tank1History.length > 0 ? tank1History[tank1History.length - 1] : 65,
+        distance: null,
+        filling: false,
+        lastChanged: savedLastChanged1 ? new Date(savedLastChanged1) : null,
+        batPct: 0,
+        vBat: 0.0
+      },
+      tank2: {
+        percent: tank2History.length > 0 ? tank2History[tank2History.length - 1] : 38,
+        distance: null,
+        filling: false,
+        lastChanged: savedLastChanged2 ? new Date(savedLastChanged2) : null,
+        batPct: 0,
+        vBat: 0.0
+      },
       relays: { pump_a: false, pump_b: false, valve_1: false, valve_2: false },
       rawSensor: null,
       initialized: false
@@ -2357,6 +2624,18 @@
     function startRestPolling() {
       if (pollingInterval) return;
       console.log('[REST] Starting fallback polling every 5s');
+
+      // Run immediately first
+      (async () => {
+        if (!appState.wsReady) {
+          try {
+            await fetchAllRest();
+          } catch (e) {
+            console.warn('[REST] Initial fallback fetch failed', e);
+          }
+        }
+      })();
+
       pollingInterval = setInterval(async () => {
         if (appState.wsReady) return;
         try {
@@ -2396,7 +2675,7 @@
         console.log('[WS] Connected ✓');
         wsReconnectDelay = 1000;
         appState.wsReady = true;
-        updateConnStatus(true);
+        recordSuccessfulSync();
         stopRestPolling();
 
         WS_RESOURCES.forEach(resource => {
@@ -2433,7 +2712,10 @@
         appState.wsReady = false;
         clearInterval(wsPingTimer);
         clearTimeout(wsAliveTimer);
-        updateConnStatus(false);
+
+        // Wait 3 seconds before marking offline, giving REST polling a chance to verify
+        setTimeout(markOffline, 3000);
+
         startRestPolling();
         scheduleReconnect();
       };
@@ -2493,7 +2775,7 @@
 
       if (handled) {
         renderAll();
-        updateConnStatus(true);
+        recordSuccessfulSync();
         updateLastSync();
       }
     }
@@ -2502,27 +2784,159 @@
       return (v !== null && v !== undefined) ? v : fallback;
     }
 
+    function getBatterySvg(percent) {
+      const fillWidth = Math.round((percent / 100) * 12);
+      let color = 'var(--success)';
+      if (percent < 20) color = 'var(--danger)';
+      else if (percent < 50) color = '#eab308'; // yellow/amber
+
+      return `
+        <svg width="16" height="10" viewBox="0 0 20 10" style="overflow: visible; display: block;">
+          <rect x="0" y="0" width="16" height="10" rx="1.5" fill="none" stroke="${color}" stroke-width="1.5" />
+          <path d="M 17 3.5 L 17 6.5" stroke="${color}" stroke-width="1.5" stroke-linecap="round" />
+          <rect x="2" y="2" width="${fillWidth}" height="6" rx="0.5" fill="${color}" />
+        </svg>
+      `;
+    }
+
+    function generateSparklinePath(history) {
+      if (!history || history.length < 2) {
+        return 'M 0 10 L 60 10';
+      }
+
+      const points = history.map((val, idx) => {
+        const x = (idx / (history.length - 1)) * 60;
+        const y = 18 - (val / 100) * 16;
+        return { x, y };
+      });
+
+      let path = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
+      for (let i = 1; i < points.length; i++) {
+        path += ` L ${points[i].x.toFixed(1)} ${points[i].y.toFixed(1)}`;
+      }
+      return path;
+    }
+
+    function updateSparkline(tankNum, history, currentVal) {
+      const pathId = `tank${tankNum}SparklinePath`;
+      const circleId = `tank${tankNum}SparklineCircle`;
+      const trendValId = `tank${tankNum}TrendVal`;
+
+      const pathEl = document.getElementById(pathId);
+      const circleEl = document.getElementById(circleId);
+      const trendValEl = document.getElementById(trendValId);
+
+      if (!pathEl || !circleEl || !trendValEl) return;
+
+      let displayHistory = history;
+      if (displayHistory.length < 2) {
+        displayHistory = [currentVal, currentVal];
+      }
+
+      const path = generateSparklinePath(displayHistory);
+      pathEl.setAttribute('d', path);
+
+      const lastX = 60;
+      const lastY = 18 - (currentVal / 100) * 16;
+      circleEl.setAttribute('cx', lastX);
+      circleEl.setAttribute('cy', lastY);
+
+      const firstVal = displayHistory[0];
+      const diff = currentVal - firstVal;
+      const diffPct = Math.abs(diff).toFixed(0);
+
+      if (diff > 0) {
+        trendValEl.className = 'sparkline-trend-val up';
+        trendValEl.innerHTML = `
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+          +${diffPct}%
+        `;
+      } else if (diff < 0) {
+        trendValEl.className = 'sparkline-trend-val down';
+        trendValEl.innerHTML = `
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+          -${diffPct}%
+        `;
+      } else {
+        trendValEl.className = 'sparkline-trend-val';
+        trendValEl.style.color = 'var(--text-muted)';
+        trendValEl.innerHTML = `
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          0%
+        `;
+      }
+    }
+
     function ingestResource(resource, payload) {
       if (payload === null || payload === undefined) return;
 
       switch (resource) {
         case 'sensors':
-          // Map ESP8266 sensor data to app state
+          // Map ESP32 sensor data to app state and detect changes for last updated timestamp
+          const newPct1 = val(payload.tank1_percent, appState.tank1.percent);
+          const newDist1 = val(payload.tank1_distance, appState.tank1.distance);
+          const newBatPct1 = val(payload.tank1_bat_pct, appState.tank1.batPct);
+          const newVBat1 = val(payload.tank1_vbat, appState.tank1.vBat);
+
+          let lastChanged1 = appState.tank1.lastChanged;
+          if (newPct1 !== appState.tank1.percent || !lastChanged1) {
+            lastChanged1 = new Date();
+            localStorage.setItem('tank1LastChanged', lastChanged1.toISOString());
+            // Update Trend History
+            if (tank1History.length === 0 || tank1History[tank1History.length - 1] !== newPct1) {
+              tank1History.push(newPct1);
+              if (tank1History.length > 15) tank1History.shift();
+              localStorage.setItem('tank1History', JSON.stringify(tank1History));
+            }
+          }
+
+          const newPct2 = val(payload.tank2_percent, appState.tank2.percent);
+          const newDist2 = val(payload.tank2_distance, appState.tank2.distance);
+          const newBatPct2 = val(payload.tank2_bat_pct, appState.tank2.batPct);
+          const newVBat2 = val(payload.tank2_vbat, appState.tank2.vBat);
+
+          let lastChanged2 = appState.tank2.lastChanged;
+          if (newPct2 !== appState.tank2.percent || !lastChanged2) {
+            lastChanged2 = new Date();
+            localStorage.setItem('tank2LastChanged', lastChanged2.toISOString());
+            // Update Trend History
+            if (tank2History.length === 0 || tank2History[tank2History.length - 1] !== newPct2) {
+              tank2History.push(newPct2);
+              if (tank2History.length > 15) tank2History.shift();
+              localStorage.setItem('tank2History', JSON.stringify(tank2History));
+            }
+          }
+
           appState.reservoir = {
             percent: val(payload.res_percent, appState.reservoir.percent),
             distance: val(payload.res_distance, appState.reservoir.distance),
             volume: val(payload.res_volume, appState.reservoir.volume || 0)
           };
+
           appState.tank1 = {
-            percent: val(payload.tank1_percent, appState.tank1.percent),
-            distance: val(payload.tank1_distance, appState.tank1.distance),
-            filling: val(payload.tank1_filling, appState.tank1.filling)
+            percent: newPct1,
+            distance: newDist1,
+            filling: val(payload.tank1_filling, appState.tank1.filling),
+            lastChanged: lastChanged1,
+            batPct: newBatPct1,
+            vBat: newVBat1
           };
+
           appState.tank2 = {
-            percent: val(payload.tank2_percent, appState.tank2.percent),
-            distance: val(payload.tank2_distance, appState.tank2.distance),
-            filling: val(payload.tank2_filling, appState.tank2.filling)
+            percent: newPct2,
+            distance: newDist2,
+            filling: val(payload.tank2_filling, appState.tank2.filling),
+            lastChanged: lastChanged2,
+            batPct: newBatPct2,
+            vBat: newVBat2
           };
+
           appState.initialized = true;
           console.log('[DATA] Sensors updated:', appState.reservoir, appState.tank1, appState.tank2);
           break;
@@ -2531,11 +2945,11 @@
           const keys = ['pump_a', 'pump_b', 'valve_1', 'valve_2'];
           const cardMap = { pump_a: 'ctrlPA', pump_b: 'ctrlPB', valve_1: 'ctrlV1', valve_2: 'ctrlV2' };
           const labelMap = { pump_a: 'MOTOR A', pump_b: 'MOTOR B', valve_1: 'VALVE A', valve_2: 'VALVE B' };
-          
+
           keys.forEach(key => {
             const incomingVal = val(payload[key], appState.relays[key]);
             appState.relays[key] = incomingVal;
-            
+
             if (pendingControls[key] !== undefined && pendingControls[key] !== null) {
               if (incomingVal === pendingControls[key]) {
                 pendingControls[key] = null;
@@ -2579,7 +2993,7 @@
             offset: val(payload.sensor_offset_cm, 0)
           };
           console.log(`[RAW SENSOR] Distance: ${appState.rawSensor.rawDistance.toFixed(1)}cm, ` +
-                      `Water Height: ${appState.rawSensor.waterHeight.toFixed(1)}cm`);
+            `Water Height: ${appState.rawSensor.waterHeight.toFixed(1)}cm`);
           break;
       }
     }
@@ -2618,11 +3032,12 @@
         ingestResource('mode', modeData.out ?? modeData);
 
         renderAll();
-        updateConnStatus(true);
+        recordSuccessfulSync();
         updateLastSync();
         console.log('[REST] Data fetched successfully');
       } catch (e) {
         console.warn('[REST] Fetch failed:', e);
+        markOffline();
       }
     }
 
@@ -2643,7 +3058,7 @@
       let dist = appState.reservoir.distance; // Measured distance from top (in cm)
 
       let waterHeightCm = 0;
-      
+
       // Calculate water height and percentage from raw distance if available.
       // Sensor is mounted at 155 cm (110 cm tank height + 45 cm blindspot).
       // 45 cm measured distance = 100% full (110 cm water height).
@@ -2729,7 +3144,8 @@
       }
       const distEl = document.getElementById('tank1Dist');
       if (distEl) {
-        distEl.textContent = `${(waterHeightCm / 100).toFixed(2)} m / 1.00 m`;
+        const vol = Math.round((pct / 100) * 1000);
+        distEl.textContent = `${vol} ml / 1000 ml`;
       }
 
       // Dynamic frosted glass water level styling
@@ -2749,7 +3165,11 @@
       }
 
       const badge = document.getElementById('fill1Badge');
-      if (badge) badge.classList.toggle('show', t.filling);
+      if (badge) {
+        const motorA = appState.relays.pump_a;
+        const valveA = appState.relays.valve_1;
+        badge.classList.toggle('show', motorA && valveA);
+      }
 
       // SVG Flow diagram level
       const el = document.getElementById('svgT1Water');
@@ -2758,6 +3178,27 @@
         el.setAttribute('height', h);
         el.setAttribute('y', 38 - h);
       }
+
+      // Last updated timestamp rendering
+      const lastChangedEl = document.getElementById('tank1LastUpdated');
+      if (lastChangedEl && t.lastChanged) {
+        const pad = (num) => String(num).padStart(2, '0');
+        const h = pad(t.lastChanged.getHours());
+        const m = pad(t.lastChanged.getMinutes());
+        const s = pad(t.lastChanged.getSeconds());
+        lastChangedEl.textContent = `Changed: ${h}:${m}:${s}`;
+      }
+
+      // Battery display
+      const batPctEl = document.getElementById('tank1BatPct');
+      const vBatEl = document.getElementById('tank1VBat');
+      const batIconEl = document.getElementById('tank1BatIcon');
+      if (batPctEl) batPctEl.textContent = `${t.batPct ? t.batPct.toFixed(0) : 0}%`;
+      if (vBatEl) vBatEl.textContent = `${t.vBat ? t.vBat.toFixed(2) : '0.00'} V`;
+      if (batIconEl) batIconEl.innerHTML = getBatterySvg(t.batPct || 0);
+
+      // Update Sparkline
+      updateSparkline(1, tank1History, pct);
     }
 
     function renderTank2() {
@@ -2786,7 +3227,8 @@
       }
       const distEl = document.getElementById('tank2Dist');
       if (distEl) {
-        distEl.textContent = `${(waterHeightCm / 100).toFixed(2)} m / 1.00 m`;
+        const vol = Math.round((pct / 100) * 635);
+        distEl.textContent = `${vol} ml / 635 ml`;
       }
 
       // Dynamic frosted glass water level styling
@@ -2806,7 +3248,11 @@
       }
 
       const badge = document.getElementById('fill2Badge');
-      if (badge) badge.classList.toggle('show', t.filling);
+      if (badge) {
+        const motorA = appState.relays.pump_a;
+        const valveB = appState.relays.valve_2;
+        badge.classList.toggle('show', motorA && valveB);
+      }
 
       // SVG Flow diagram level
       const el = document.getElementById('svgT2Water');
@@ -2815,6 +3261,27 @@
         el.setAttribute('height', h);
         el.setAttribute('y', 110 - h);
       }
+
+      // Last updated timestamp rendering
+      const lastChangedEl = document.getElementById('tank2LastUpdated');
+      if (lastChangedEl && t.lastChanged) {
+        const pad = (num) => String(num).padStart(2, '0');
+        const h = pad(t.lastChanged.getHours());
+        const m = pad(t.lastChanged.getMinutes());
+        const s = pad(t.lastChanged.getSeconds());
+        lastChangedEl.textContent = `Changed: ${h}:${m}:${s}`;
+      }
+
+      // Battery display
+      const batPctEl = document.getElementById('tank2BatPct');
+      const vBatEl = document.getElementById('tank2VBat');
+      const batIconEl = document.getElementById('tank2BatIcon');
+      if (batPctEl) batPctEl.textContent = `${t.batPct ? t.batPct.toFixed(0) : 0}%`;
+      if (vBatEl) vBatEl.textContent = `${t.vBat ? t.vBat.toFixed(2) : '0.00'} V`;
+      if (batIconEl) batIconEl.innerHTML = getBatterySvg(t.batPct || 0);
+
+      // Update Sparkline
+      updateSparkline(2, tank2History, pct);
     }
 
     function renderRelays() {
@@ -2848,7 +3315,7 @@
       const manual = appState.manualMode;
       const btnAuto = document.getElementById('btnAuto');
       const btnManual = document.getElementById('btnManual');
-      
+
       // Update segment control buttons
       if (btnAuto) {
         btnAuto.classList.toggle('on', !manual);
@@ -2892,11 +3359,23 @@
       const svgPumpBCore = document.getElementById('svgPumpBCore');
       const svgV1Core = document.getElementById('svgV1Core');
       const svgV2Core = document.getElementById('svgV2Core');
-      
+
       if (svgPumpACore) svgPumpACore.setAttribute('fill', pumpOn ? '#10b981' : 'var(--text-muted)');
       if (svgPumpBCore) svgPumpBCore.setAttribute('fill', pumpBOn ? '#10b981' : 'var(--text-muted)');
       if (svgV1Core) svgV1Core.setAttribute('fill', v1open ? '#10b981' : 'var(--text-muted)');
       if (svgV2Core) svgV2Core.setAttribute('fill', v2open ? '#10b981' : 'var(--text-muted)');
+
+      // Spin Impellers
+      const impA = document.getElementById('svgPumpAImpeller');
+      const impB = document.getElementById('svgPumpBImpeller');
+      if (impA) {
+        if (pumpOn) impA.classList.add('spinning');
+        else impA.classList.remove('spinning');
+      }
+      if (impB) {
+        if (pumpBOn) impB.classList.add('spinning');
+        else impB.classList.remove('spinning');
+      }
     }
 
     function animatePipe(id, active) {
@@ -2914,6 +3393,19 @@
     // ========================================================
     //  CONNECTION STATUS
     // ========================================================
+    let lastSuccessfulSync = 0;
+
+    function recordSuccessfulSync() {
+      lastSuccessfulSync = Date.now();
+      updateConnStatus(true);
+    }
+
+    function markOffline() {
+      if (!appState.wsReady && Date.now() - lastSuccessfulSync > 8000) {
+        updateConnStatus(false);
+      }
+    }
+
     function updateConnStatus(online) {
       appState.connected = online;
       const dot = document.getElementById('connDot');
@@ -3046,6 +3538,7 @@
         if (!appState.wsReady) startRestPolling();
       } catch (e) {
         console.error('[REST] Initial fetch failed', e);
+        markOffline();
         startRestPolling();
       }
     })();
